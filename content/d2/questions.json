@@ -1,0 +1,788 @@
+[
+ {
+  "id": "d2q01",
+  "objective": "2.1",
+  "question": "A new analyst must be able to create users and roles but must NOT be able to grant privileges on existing tables. Which system role fits best?",
+  "options": [
+   "USERADMIN",
+   "SYSADMIN",
+   "ACCOUNTADMIN",
+   "SECURITYADMIN"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "USERADMIN has CREATE USER and CREATE ROLE. SECURITYADMIN adds MANAGE GRANTS, which is more than needed.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-access-control-overview"
+ },
+ {
+  "id": "d2q02",
+  "objective": "2.1",
+  "question": "Which system-defined role directly inherits the privileges of SECURITYADMIN and SYSADMIN?",
+  "options": [
+   "PUBLIC",
+   "ACCOUNTADMIN",
+   "USERADMIN",
+   "ORGADMIN"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "ACCOUNTADMIN sits at the top of the account hierarchy and holds SECURITYADMIN and SYSADMIN. ORGADMIN is separate from the account hierarchy.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-access-control-overview"
+ },
+ {
+  "id": "d2q03",
+  "objective": "2.1",
+  "question": "A team creates a custom role hierarchy for its data mart. What is Snowflake's recommended practice for the top role in that hierarchy?",
+  "options": [
+   "Leave it ungranted so it stays isolated",
+   "Grant it to ACCOUNTADMIN only",
+   "Grant it to SYSADMIN",
+   "Grant it to PUBLIC"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Granting custom roles to SYSADMIN lets system administrators manage every object those roles own.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-access-control-considerations"
+ },
+ {
+  "id": "d2q04",
+  "objective": "2.1",
+  "question": "A role has SELECT on table SALES.PUBLIC.ORDERS but gets an 'object does not exist or not authorized' error. Which missing privileges are the most likely cause? (Select TWO)",
+  "options": [
+   "MONITOR on the database",
+   "USAGE on database SALES",
+   "CREATE TABLE on the schema",
+   "USAGE on schema SALES.PUBLIC",
+   "OWNERSHIP on the table"
+  ],
+  "answer": [
+   1,
+   3
+  ],
+  "explanation": "To reach a table, a role needs USAGE on its database and schema as well as SELECT on the table.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-access-control-overview"
+ },
+ {
+  "id": "d2q05",
+  "objective": "2.1",
+  "question": "In a managed access schema, who can grant SELECT on a table in that schema to another role?",
+  "options": [
+   "The schema owner or a role with MANAGE GRANTS",
+   "Any role with SELECT on the table",
+   "The table owner",
+   "Only ACCOUNTADMIN"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Managed access takes grant decisions away from object owners and gives them to the schema owner (or MANAGE GRANTS).",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-access-control-configure#creating-managed-access-schemas"
+ },
+ {
+  "id": "d2q06",
+  "objective": "2.1",
+  "question": "A user runs USE ROLE ANALYST; USE SECONDARY ROLES ALL; and then CREATE TABLE. Which role owns the new table?",
+  "options": [
+   "Every active secondary role",
+   "ANALYST (the primary role)",
+   "SYSADMIN",
+   "The user's default role"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Secondary roles add privileges for running statements, but only the primary role authorizes CREATE, and it becomes the owner.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-access-control-overview#label-access-control-role-enforcement"
+ },
+ {
+  "id": "d2q07",
+  "objective": "2.1",
+  "question": "Which statements about database roles are true? (Select TWO)",
+  "options": [
+   "They can be granted to a share",
+   "They can't be activated as a session's primary role",
+   "They replace account roles entirely",
+   "They can hold privileges on objects in any database",
+   "They are only available in Business Critical"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "Database roles are scoped to one database, are granted to account roles or shares, and can't be used directly with USE ROLE.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-access-control-overview#database-roles"
+ },
+ {
+  "id": "d2q08",
+  "objective": "2.1",
+  "question": "An account-level network policy allows 10.0.0.0/8. User BOB has a user-level network policy that allows only 192.168.1.10. From which address can BOB connect?",
+  "options": [
+   "Any address in 10.0.0.0/8",
+   "Both ranges",
+   "Neither, because the policies conflict",
+   "Only 192.168.1.10"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "The most specific policy applies. A user-level policy overrides the account-level policy for that user.",
+  "ref": "https://docs.snowflake.com/en/user-guide/network-policies"
+ },
+ {
+  "id": "d2q09",
+  "objective": "2.1",
+  "question": "A service account used by an ETL tool must authenticate without a password and support key rotation without downtime. What should be configured?",
+  "options": [
+   "Key-pair authentication using RSA_PUBLIC_KEY and RSA_PUBLIC_KEY_2",
+   "SAML 2.0 federated authentication",
+   "A session policy with a long idle timeout",
+   "MFA with Duo push"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Key-pair authentication suits programmatic access. Two public key slots let you add the new key before removing the old one.",
+  "ref": "https://docs.snowflake.com/en/user-guide/key-pair-auth"
+ },
+ {
+  "id": "d2q10",
+  "objective": "2.1",
+  "question": "Which user TYPE should be used for a non-human integration that must not be allowed to sign in with a password?",
+  "options": [
+   "PERSON",
+   "SERVICE",
+   "NULL (unset)",
+   "LEGACY_SERVICE"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "SERVICE users can't use passwords or MFA; they authenticate with key-pair, OAuth, programmatic access tokens or workload identity federation.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-user"
+ },
+ {
+  "id": "d2q11",
+  "objective": "2.1",
+  "question": "A company wants employees to sign in to Snowflake through Okta using SAML 2.0. What is this called?",
+  "options": [
+   "External tokenization",
+   "Snowflake OAuth",
+   "Federated authentication (SSO)",
+   "Key-pair authentication"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "SAML-based SSO with an external identity provider is federated authentication.",
+  "ref": "https://docs.snowflake.com/en/user-guide/admin-security-fed-auth-overview"
+ },
+ {
+  "id": "d2q12",
+  "objective": "2.1",
+  "question": "How often does Snowflake automatically rotate its managed encryption keys?",
+  "options": [
+   "Once a year",
+   "Every 7 days",
+   "Every 90 days",
+   "Every 30 days"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Active keys are retired after 30 days. Yearly re-encryption is a separate feature, periodic rekeying (Enterprise).",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-encryption-manage"
+ },
+ {
+  "id": "d2q13",
+  "objective": "2.1",
+  "question": "What happens when periodic rekeying is enabled?",
+  "options": [
+   "Data encrypted with a key older than one year is re-encrypted with a new key",
+   "Customers supply a new key every month",
+   "Keys rotate every 24 hours",
+   "Data in Fail-safe is deleted after re-encryption"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Periodic rekeying (Enterprise+) re-encrypts data whose retired key is more than a year old.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-encryption-manage"
+ },
+ {
+  "id": "d2q14",
+  "objective": "2.1",
+  "question": "With Tri-Secret Secure, what happens if the customer revokes its key in the cloud provider's KMS?",
+  "options": [
+   "Only Time Travel data becomes unreadable",
+   "Snowflake can no longer decrypt the account's data",
+   "Queries run but results are masked",
+   "Snowflake falls back to its own key"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "The composite master key needs both the Snowflake key and the customer key, so revoking the customer key cuts off access to the data.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-encryption-tss"
+ },
+ {
+  "id": "d2q15",
+  "objective": "2.1",
+  "question": "Which order matches Snowflake's hierarchical key model from top to bottom?",
+  "options": [
+   "Account master key → root key → file key → table master key",
+   "Root key → table master key → account master key → file key",
+   "Root key → account master key → table master key → file key",
+   "File key → table master key → account master key → root key"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Each level encrypts the keys below it, which limits how much data any single key covers.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-encryption-manage"
+ },
+ {
+  "id": "d2q16",
+  "objective": "2.1",
+  "question": "Which features are available on every Snowflake edition? (Select TWO)",
+  "options": [
+   "Periodic rekeying",
+   "AWS PrivateLink",
+   "Encryption of data at rest and in transit",
+   "Network policies",
+   "Tri-Secret Secure"
+  ],
+  "answer": [
+   2,
+   3
+  ],
+  "explanation": "Encryption everywhere and network policies are on Standard. Tri-Secret Secure and PrivateLink need Business Critical; periodic rekeying needs Enterprise.",
+  "ref": "https://docs.snowflake.com/en/user-guide/intro-editions"
+ },
+ {
+  "id": "d2q17",
+  "objective": "2.1",
+  "question": "Which Snowsight feature scans an account against security best practices such as the CIS Benchmarks and recommends fixes?",
+  "options": [
+   "Trust Center",
+   "Query Profile",
+   "Cost Insights",
+   "Horizon lineage graph"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "The Trust Center runs scanner packages (including CIS Benchmarks) and reports findings with suggested fixes.",
+  "ref": "https://docs.snowflake.com/en/user-guide/trust-center/overview"
+ },
+ {
+  "id": "d2q18",
+  "objective": "2.2",
+  "question": "Which statement about secure views is true?",
+  "options": [
+   "They are always faster than standard views",
+   "Only the owner role can see the view definition",
+   "They require Business Critical edition",
+   "They store a copy of the data"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Secure views hide their SQL and turn off some optimizations, so they can be slower. They are available on all editions.",
+  "ref": "https://docs.snowflake.com/en/user-guide/views-secure"
+ },
+ {
+  "id": "d2q19",
+  "objective": "2.2",
+  "question": "Support staff should see only the last four digits of credit card numbers, while the FINANCE role sees the full value. Which feature fits?",
+  "options": [
+   "A row access policy",
+   "A secure view",
+   "A masking policy on the column",
+   "A projection policy"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Masking policies rewrite a column's value at query time depending on context, such as the current role.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-column-ddm-intro"
+ },
+ {
+  "id": "d2q20",
+  "objective": "2.2",
+  "question": "Which statements about masking policies are true? (Select TWO)",
+  "options": [
+   "The input and output data types must match",
+   "The table owner always sees unmasked data",
+   "A column can have only one masking policy",
+   "Masking changes the data stored in the table",
+   "A masking policy can only be applied to one column"
+  ],
+  "answer": [
+   0,
+   2
+  ],
+  "explanation": "Policies are evaluated at query time and don't change the stored data. One policy can be reused on many columns, but each column gets at most one.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-column-intro"
+ },
+ {
+  "id": "d2q21",
+  "objective": "2.2",
+  "question": "A sales manager should see only rows for the regions they're responsible for, based on a mapping table. Which feature should be used?",
+  "options": [
+   "Row access policy",
+   "Object tag",
+   "Aggregation policy",
+   "Masking policy"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "A row access policy returns a BOOLEAN for each row, often by looking up a mapping table, and filters out the rows that return FALSE.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-row-intro"
+ },
+ {
+  "id": "d2q22",
+  "objective": "2.2",
+  "question": "A table has both a row access policy and a masking policy. How does Snowflake apply them?",
+  "options": [
+   "Masking policies are evaluated first",
+   "The row access policy is evaluated first, then masking policies",
+   "Only the most recently applied policy runs",
+   "Snowflake rejects the combination"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Row filtering happens before column masking.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-row-intro"
+ },
+ {
+  "id": "d2q23",
+  "objective": "2.2",
+  "question": "Data is tokenized by a third-party provider before it's loaded. Authorized roles must see the original values. What is this approach called?",
+  "options": [
+   "Dynamic data masking with SHA2",
+   "Tri-Secret Secure",
+   "External tokenization",
+   "Client-side encryption"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "External tokenization uses a masking policy that calls an external function to detokenize values for authorized users.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-column-ext-token-intro"
+ },
+ {
+  "id": "d2q24",
+  "objective": "2.2",
+  "question": "Analysts may compute averages over a customer table but must never see individual customer rows. Which policy enforces this?",
+  "options": [
+   "Projection policy",
+   "Session policy",
+   "Row access policy",
+   "Aggregation policy"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "An aggregation policy forces queries to aggregate into groups of at least MIN_GROUP_SIZE rows.",
+  "ref": "https://docs.snowflake.com/en/user-guide/aggregation-policies"
+ },
+ {
+  "id": "d2q25",
+  "objective": "2.2",
+  "question": "A column must be usable in joins and WHERE filters but must never appear in query output. Which feature fits?",
+  "options": [
+   "Projection policy",
+   "Aggregation policy",
+   "Masking policy that returns NULL",
+   "Secure view"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "A projection policy blocks the column from SELECT output but still lets queries use it for filtering and joining.",
+  "ref": "https://docs.snowflake.com/en/user-guide/projection-policies"
+ },
+ {
+  "id": "d2q26",
+  "objective": "2.2",
+  "question": "An organization wants every column labelled PII = 'email' masked automatically, including columns in tables created later. What is the most scalable approach?",
+  "options": [
+   "Apply a masking policy to each column by hand",
+   "Assign a masking policy to the PII tag (tag-based masking)",
+   "Create a secure view over every table",
+   "Create a row access policy per table"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "With tag-based masking, any column carrying the tag is protected by the policy for its data type, with no per-column work.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tag-based-masking-policies"
+ },
+ {
+  "id": "d2q27",
+  "objective": "2.2",
+  "question": "A tag is set on a schema. What happens to the tables in that schema?",
+  "options": [
+   "Nothing; tags apply only to the object they're set on",
+   "The schema becomes a managed access schema",
+   "They inherit the tag through tag lineage unless a value is set on them directly",
+   "The tables are copied with the tag"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Tags propagate down the object hierarchy (database → schema → table → column).",
+  "ref": "https://docs.snowflake.com/en/user-guide/object-tagging"
+ },
+ {
+  "id": "d2q28",
+  "objective": "2.2",
+  "question": "What is the maximum number of tags that can be set on a single object?",
+  "options": [
+   "10",
+   "20",
+   "Unlimited",
+   "50"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "An object can have up to 50 tags.",
+  "ref": "https://docs.snowflake.com/en/user-guide/object-tagging"
+ },
+ {
+  "id": "d2q29",
+  "objective": "2.2",
+  "question": "Which function analyzes a table's columns and assigns semantic and privacy categories?",
+  "options": [
+   "SYSTEM$CLASSIFY",
+   "SYSTEM$TYPEOF",
+   "SYSTEM$CLUSTERING_INFORMATION",
+   "SYSTEM$GET_TAG"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "SYSTEM$CLASSIFY runs sensitive data classification and records the results as system tags.",
+  "ref": "https://docs.snowflake.com/en/user-guide/classify-intro"
+ },
+ {
+  "id": "d2q30",
+  "objective": "2.2",
+  "question": "An auditor asks which users read the SSN column of the CUSTOMERS table last quarter. Where should you look?",
+  "options": [
+   "The table's Query Profile",
+   "SNOWFLAKE.ACCOUNT_USAGE.ACCESS_HISTORY",
+   "INFORMATION_SCHEMA.QUERY_HISTORY",
+   "ACCOUNT_USAGE.LOGIN_HISTORY"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "ACCESS_HISTORY records the objects and columns each query read or wrote, and keeps a year of data. INFORMATION_SCHEMA doesn't go back a quarter.",
+  "ref": "https://docs.snowflake.com/en/user-guide/access-history"
+ },
+ {
+  "id": "d2q31",
+  "objective": "2.2",
+  "question": "Which features require at least Enterprise edition? (Select TWO)",
+  "options": [
+   "Row access policies",
+   "Network policies",
+   "Object tagging",
+   "Secure views",
+   "Encryption at rest"
+  ],
+  "answer": [
+   0,
+   2
+  ],
+  "explanation": "Column- and row-level security, tagging, classification and access history are Enterprise features. Secure views and network policies are on all editions.",
+  "ref": "https://docs.snowflake.com/en/user-guide/intro-editions"
+ },
+ {
+  "id": "d2q32",
+  "objective": "2.2",
+  "question": "A data steward wants an alert when a table's NULL count in EMAIL rises. Which feature measures this on a schedule?",
+  "options": [
+   "Resource monitors",
+   "Search optimization service",
+   "Streams",
+   "Data metric functions (for example, SNOWFLAKE.CORE.NULL_COUNT)"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "System DMFs such as NULL_COUNT run on the table's DATA_METRIC_SCHEDULE and write results to SNOWFLAKE.LOCAL.DATA_QUALITY_MONITORING_RESULTS.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-quality-intro"
+ },
+ {
+  "id": "d2q33",
+  "objective": "2.2",
+  "question": "How is the schedule for data metric functions on a table configured?",
+  "options": [
+   "With the table's DATA_METRIC_SCHEDULE parameter, which applies to all its DMFs",
+   "With CREATE PIPE … AUTO_INGEST",
+   "Separately for each DMF using a task",
+   "With a resource monitor"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "DATA_METRIC_SCHEDULE is set on the table or view and applies to every DMF attached to it.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-quality-working"
+ },
+ {
+  "id": "d2q34",
+  "objective": "2.3",
+  "question": "Which are billed as part of storage cost? (Select TWO)",
+  "options": [
+   "Fail-safe data",
+   "Time Travel data",
+   "Result cache",
+   "Data transfer into Snowflake",
+   "Cloud services usage"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "Storage includes active data plus Time Travel and Fail-safe bytes, stages and clone deltas. Ingress is free, and the result cache isn't billed.",
+  "ref": "https://docs.snowflake.com/en/user-guide/cost-understanding-data-storage"
+ },
+ {
+  "id": "d2q35",
+  "objective": "2.3",
+  "question": "When does Snowflake charge for data transfer?",
+  "options": [
+   "Only for transfers within the same region",
+   "Whenever data is loaded into a table",
+   "When data leaves to a different region or cloud provider",
+   "For every query result returned to a client"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Ingress is free. Egress across regions or clouds (unloading, replication, external functions) is charged.",
+  "ref": "https://docs.snowflake.com/en/user-guide/cost-understanding-data-transfer"
+ },
+ {
+  "id": "d2q36",
+  "objective": "2.3",
+  "question": "A resource monitor should alert at 75%, stop new queries at 100%, and kill running queries at 110%. Which actions are needed at 100% and 110%?",
+  "options": [
+   "NOTIFY at 100%, SUSPEND at 110%",
+   "ABORT at 100%, TERMINATE at 110%",
+   "SUSPEND_IMMEDIATE at 100%, SUSPEND at 110%",
+   "SUSPEND at 100%, SUSPEND_IMMEDIATE at 110%"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "SUSPEND lets running queries finish. SUSPEND_IMMEDIATE cancels them. Thresholds above 100% are allowed.",
+  "ref": "https://docs.snowflake.com/en/user-guide/resource-monitors"
+ },
+ {
+  "id": "d2q37",
+  "objective": "2.3",
+  "question": "Which statements about resource monitors are true? (Select TWO)",
+  "options": [
+   "One monitor can cover only one warehouse",
+   "They can suspend Snowpipe",
+   "They can't control credits used by serverless features",
+   "Any role with USAGE on a warehouse can create one",
+   "A warehouse can be assigned to only one resource monitor"
+  ],
+  "answer": [
+   2,
+   4
+  ],
+  "explanation": "Monitors can cover many warehouses, but each warehouse has at most one. They track warehouse credits only and are created by ACCOUNTADMIN.",
+  "ref": "https://docs.snowflake.com/en/user-guide/resource-monitors"
+ },
+ {
+  "id": "d2q38",
+  "objective": "2.3",
+  "question": "A team wants to track monthly spend for a project that uses a warehouse, serverless tasks and automatic clustering, with a notification when spend is projected to exceed 1,000 credits. What should they use?",
+  "options": [
+   "An account-level network policy",
+   "A custom budget",
+   "A resource monitor",
+   "STATEMENT_TIMEOUT_IN_SECONDS"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Budgets cover warehouses and serverless features for a group of objects, and notify on projected overspend.",
+  "ref": "https://docs.snowflake.com/en/user-guide/budgets"
+ },
+ {
+  "id": "d2q39",
+  "objective": "2.3",
+  "question": "Which view should you query to see the last 5 minutes of query activity with no delay?",
+  "options": [
+   "ORGANIZATION_USAGE.QUERY_HISTORY",
+   "SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY",
+   "INFORMATION_SCHEMA.QUERY_HISTORY table function",
+   "ACCOUNT_USAGE.ACCESS_HISTORY"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "INFORMATION_SCHEMA has no latency. ACCOUNT_USAGE views lag by 45 minutes to 3 hours.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/account-usage#differences-between-account-usage-and-information-schema"
+ },
+ {
+  "id": "d2q40",
+  "objective": "2.3",
+  "question": "Which are characteristics of ACCOUNT_USAGE views compared with INFORMATION_SCHEMA? (Select TWO)",
+  "options": [
+   "They are scoped to a single database",
+   "They are available only in Business Critical",
+   "They include dropped objects",
+   "They keep data for 1 year",
+   "They have no latency"
+  ],
+  "answer": [
+   2,
+   3
+  ],
+  "explanation": "ACCOUNT_USAGE covers the whole account, keeps 1 year of data, includes dropped objects, and has 45 min to 3 h latency.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/account-usage"
+ },
+ {
+  "id": "d2q41",
+  "objective": "2.3",
+  "question": "By default, which role can query the SNOWFLAKE.ACCOUNT_USAGE schema?",
+  "options": [
+   "ACCOUNTADMIN",
+   "USERADMIN",
+   "PUBLIC",
+   "SYSADMIN"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Only ACCOUNTADMIN has access by default. Grant IMPORTED PRIVILEGES or SNOWFLAKE database roles to give other roles access.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/account-usage#enabling-the-snowflake-database-usage-for-other-roles"
+ },
+ {
+  "id": "d2q42",
+  "objective": "2.3",
+  "question": "Which view shows the compute cost attributed to each individual query?",
+  "options": [
+   "TABLE_STORAGE_METRICS",
+   "QUERY_ATTRIBUTION_HISTORY",
+   "LOGIN_HISTORY",
+   "WAREHOUSE_LOAD_HISTORY"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "QUERY_ATTRIBUTION_HISTORY assigns warehouse credits to queries (excluding idle time).",
+  "ref": "https://docs.snowflake.com/en/sql-reference/account-usage/query_attribution_history"
+ },
+ {
+  "id": "d2q43",
+  "objective": "2.3",
+  "question": "An administrator wants to compare daily cloud services credits to what was actually billed after the 10% adjustment. Which view helps?",
+  "options": [
+   "QUERY_HISTORY",
+   "WAREHOUSE_METERING_HISTORY",
+   "METERING_DAILY_HISTORY",
+   "STORAGE_USAGE"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "METERING_DAILY_HISTORY includes CREDITS_ADJUSTMENT_CLOUD_SERVICES and CREDITS_BILLED.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/account-usage/metering_daily_history"
+ },
+ {
+  "id": "d2q44",
+  "objective": "2.3",
+  "question": "Several teams share one warehouse. How can each team's query cost be attributed? (Select TWO)",
+  "options": [
+   "Use TABLE_STORAGE_METRICS",
+   "Enable a resource monitor per team on the same warehouse",
+   "Use a network policy per team",
+   "Set QUERY_TAG for each team's sessions or users",
+   "Use QUERY_ATTRIBUTION_HISTORY grouped by user or query tag"
+  ],
+  "answer": [
+   3,
+   4
+  ],
+  "explanation": "Query tags and per-query attribution split a shared warehouse's cost. A warehouse can't have one monitor per team.",
+  "ref": "https://docs.snowflake.com/en/user-guide/cost-attributing"
+ },
+ {
+  "id": "d2q45",
+  "objective": "2.3",
+  "question": "A poorly written query has run for 30 hours on a warehouse. Which parameter could have cancelled it automatically?",
+  "options": [
+   "STATEMENT_TIMEOUT_IN_SECONDS",
+   "MAX_CLUSTER_COUNT",
+   "DATA_RETENTION_TIME_IN_DAYS",
+   "AUTO_SUSPEND"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "STATEMENT_TIMEOUT_IN_SECONDS (default 172,800 s = 2 days) cancels statements that run longer than the limit.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/parameters#statement-timeout-in-seconds"
+ },
+ {
+  "id": "d2q46",
+  "objective": "2.3",
+  "question": "Which view helps decide whether a warehouse needs multi-cluster scaling by showing queued load over time?",
+  "options": [
+   "DATABASE_STORAGE_USAGE_HISTORY",
+   "WAREHOUSE_LOAD_HISTORY",
+   "ACCESS_HISTORY",
+   "WAREHOUSE_METERING_HISTORY"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "WAREHOUSE_LOAD_HISTORY shows average running vs queued queries. Persistent queuing suggests scaling out.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/account-usage/warehouse_load_history"
+ },
+ {
+  "id": "d2q47",
+  "objective": "2.3",
+  "question": "A transient staging table is reloaded nightly from source files. Why would making it transient reduce cost compared with a permanent table?",
+  "options": [
+   "Transient tables don't use warehouse credits",
+   "Transient tables are cached for free",
+   "Transient tables have no Fail-safe, so there are no Fail-safe storage charges",
+   "Transient tables are stored uncompressed"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Permanent tables carry 7 days of Fail-safe storage. Transient tables have none and at most 1 day of Time Travel.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-temp-transient"
+ },
+ {
+  "id": "d2q48",
+  "objective": "2.3",
+  "question": "Which Snowflake feature checks a SQL condition on a schedule and, for example, sends an email when it's met?",
+  "options": [
+   "Streams",
+   "Secure views",
+   "Resource monitors",
+   "Alerts (CREATE ALERT)"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "An alert checks a condition on a schedule and runs an action such as SYSTEM$SEND_EMAIL through a notification integration.",
+  "ref": "https://docs.snowflake.com/en/user-guide/alerts"
+ }
+]
