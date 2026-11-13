@@ -1,0 +1,971 @@
+[
+ {
+  "id": "d1q01",
+  "objective": "1.1",
+  "question": "Which Snowflake layer is responsible for query parsing and optimization?",
+  "options": [
+   "Database Storage",
+   "Compute",
+   "Cloud Services",
+   "Virtual warehouse local cache"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Cloud Services handles parsing, optimization, metadata, authentication and access control. Warehouses (Compute) only execute the plan.",
+  "ref": "https://docs.snowflake.com/en/user-guide/intro-key-concepts"
+ },
+ {
+  "id": "d1q02",
+  "objective": "1.1",
+  "question": "Two virtual warehouses query the same large table at the same time. What is the effect on each warehouse's performance?",
+  "options": [
+   "They compete for the same compute, so both slow down",
+   "No effect; each warehouse has its own independent compute resources",
+   "The second query waits until the first finishes",
+   "Snowflake automatically merges them into one multi-cluster warehouse"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Storage is shared but compute is not. Each warehouse is an independent cluster, so they don't affect each other's performance.",
+  "ref": "https://docs.snowflake.com/en/user-guide/intro-key-concepts"
+ },
+ {
+  "id": "d1q03",
+  "objective": "1.1",
+  "question": "An account's daily warehouse usage is 100 credits and its cloud services usage is 8 credits. How many cloud services credits are billed that day?",
+  "options": [
+   "8",
+   "0",
+   "10",
+   "18"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Cloud services are only billed above 10% of daily warehouse compute. 10% of 100 = 10; 8 is below that threshold, so nothing is billed.",
+  "ref": "https://docs.snowflake.com/en/user-guide/cost-understanding-compute"
+ },
+ {
+  "id": "d1q04",
+  "objective": "1.1",
+  "question": "A company must connect to Snowflake through AWS PrivateLink and protect data with a customer-managed key using Tri-Secret Secure. What is the minimum edition?",
+  "options": [
+   "Standard",
+   "Enterprise",
+   "Business Critical",
+   "Virtual Private Snowflake"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Private connectivity and Tri-Secret Secure start at Business Critical.",
+  "ref": "https://docs.snowflake.com/en/user-guide/intro-editions"
+ },
+ {
+  "id": "d1q05",
+  "objective": "1.1",
+  "question": "Which features require at least Enterprise edition? (Select TWO)",
+  "options": [
+   "Multi-cluster warehouses",
+   "Secure Data Sharing",
+   "Time Travel retention up to 90 days",
+   "Multi-factor authentication",
+   "Automatic encryption of data at rest"
+  ],
+  "answer": [
+   0,
+   2
+  ],
+  "explanation": "Multi-cluster warehouses and extended Time Travel (up to 90 days) are Enterprise. Sharing, MFA and encryption are in every edition.",
+  "ref": "https://docs.snowflake.com/en/user-guide/intro-editions"
+ },
+ {
+  "id": "d1q06",
+  "objective": "1.1",
+  "question": "Which statement about Snowflake's storage layer is TRUE?",
+  "options": [
+   "Customers can access the underlying cloud storage files directly",
+   "Data is stored row-by-row in customer-defined partitions",
+   "Data is reorganized into compressed, columnar micro-partitions managed by Snowflake",
+   "Each virtual warehouse holds its own permanent copy of the data"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Snowflake manages storage as compressed, columnar micro-partitions in cloud object storage. The files aren't directly accessible, and warehouses only cache data.",
+  "ref": "https://docs.snowflake.com/en/user-guide/intro-key-concepts"
+ },
+ {
+  "id": "d1q07",
+  "objective": "1.1",
+  "question": "Which query can return a result without a running virtual warehouse?",
+  "options": [
+   "SELECT AVG(amount) FROM sales",
+   "SELECT COUNT(*) FROM sales",
+   "SELECT * FROM sales WHERE region = 'EU'",
+   "SELECT region, SUM(amount) FROM sales GROUP BY region"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "COUNT(*), and MIN/MAX on columns, can be answered from micro-partition metadata kept in Cloud Services, with no warehouse needed.",
+  "ref": "https://docs.snowflake.com/en/user-guide/querying-persisted-results"
+ },
+ {
+  "id": "d1q08",
+  "objective": "1.1",
+  "question": "Which Snowflake edition provides a completely separate environment that shares no resources with other Snowflake accounts?",
+  "options": [
+   "Business Critical",
+   "Enterprise",
+   "Virtual Private Snowflake (VPS)",
+   "Standard with a dedicated warehouse"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "VPS is a fully isolated Snowflake environment, the highest level of isolation.",
+  "ref": "https://docs.snowflake.com/en/user-guide/intro-editions"
+ },
+ {
+  "id": "d1q09",
+  "objective": "1.2",
+  "question": "A developer wants to deploy a Streamlit in Snowflake app and a Native App from a CI/CD pipeline. Which tool is designed for this?",
+  "options": [
+   "Snowsight worksheets",
+   "Snowflake CLI",
+   "ODBC driver",
+   "Partner Connect"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Snowflake CLI (`snow`) is the open-source developer CLI for deploying Streamlit apps, Native Apps, Snowpark code and more.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/snowflake-cli/index"
+ },
+ {
+  "id": "d1q10",
+  "objective": "1.2",
+  "question": "Where can an analyst see a graphical breakdown of a query's operators, time spent and partitions scanned?",
+  "options": [
+   "SHOW WAREHOUSES output",
+   "Query Profile in Snowsight",
+   "The INFORMATION_SCHEMA.TABLES view",
+   "Snowflake CLI connection config"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Query Profile, opened from Query History in Snowsight, shows the execution plan, operator statistics, pruning and spilling.",
+  "ref": "https://docs.snowflake.com/en/user-guide/ui-snowsight-activity"
+ },
+ {
+  "id": "d1q11",
+  "objective": "1.2",
+  "question": "Which items can be created and run directly in Snowsight? (Select TWO)",
+  "options": [
+   "Python worksheets and notebooks",
+   "Streamlit in Snowflake apps",
+   "ODBC data sources",
+   "Operating-system cron jobs"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "Snowsight supports SQL/Python worksheets, Notebooks and Streamlit apps. ODBC DSNs and cron jobs are client-side.",
+  "ref": "https://docs.snowflake.com/en/user-guide/ui-snowsight"
+ },
+ {
+  "id": "d1q12",
+  "objective": "1.2",
+  "question": "A team wants to browse Snowflake objects and run SQL without leaving their code editor. What should they use?",
+  "options": [
+   "The Snowflake extension for Visual Studio Code",
+   "SnowSQL",
+   "The Snowflake Marketplace",
+   "Partner Connect"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "The VS Code extension connects to Snowflake, lets you explore objects and run SQL/Snowpark from the editor.",
+  "ref": "https://docs.snowflake.com/en/user-guide/vscode-ext"
+ },
+ {
+  "id": "d1q13",
+  "objective": "1.2",
+  "question": "Where does the Snowflake CLI store named connection definitions by default?",
+  "options": [
+   "In a Snowflake stage",
+   "In config.toml",
+   "In the SNOWFLAKE.ACCOUNT_USAGE schema",
+   "In a JDBC URL only"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Snowflake CLI connections are defined in config.toml (connections.toml is also supported).",
+  "ref": "https://docs.snowflake.com/en/developer-guide/snowflake-cli/connecting/configure-connections"
+ },
+ {
+  "id": "d1q14",
+  "objective": "1.3",
+  "question": "Which is an account-level object, not a schema-level object?",
+  "options": [
+   "Stage",
+   "Virtual warehouse",
+   "Pipe",
+   "File format"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Warehouses, users, roles, databases, resource monitors and integrations are account-level. Stages, pipes and file formats live in schemas.",
+  "ref": "https://docs.snowflake.com/en/user-guide/security-access-control-overview"
+ },
+ {
+  "id": "d1q15",
+  "objective": "1.3",
+  "question": "How do you reference the stage automatically attached to table ORDERS?",
+  "options": [
+   "@~/orders",
+   "@orders_stage",
+   "@%orders",
+   "@@orders"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Table stages use @%table_name. @~ is the user stage; @name is a named stage.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-local-file-system-create-stage"
+ },
+ {
+  "id": "d1q16",
+  "objective": "1.3",
+  "question": "An account sets TIMEZONE = 'UTC', user JANE has TIMEZONE = 'America/Chicago', and Jane runs ALTER SESSION SET TIMEZONE = 'Europe/London'. Which time zone applies to her session?",
+  "options": [
+   "UTC",
+   "America/Chicago",
+   "Europe/London",
+   "Whichever was set most recently by an ACCOUNTADMIN"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Session parameters resolve Account → User → Session; the most specific (session) wins.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/parameters"
+ },
+ {
+  "id": "d1q17",
+  "objective": "1.3",
+  "question": "DATA_RETENTION_TIME_IN_DAYS is 30 on database SALES and 5 on schema SALES.STAGING. A table in SALES.STAGING has no explicit setting. What is its retention?",
+  "options": [
+   "30 days",
+   "5 days",
+   "1 day",
+   "0 days"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Object parameters inherit down the hierarchy and the most specific setting wins: the schema's 5 days.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/parameters"
+ },
+ {
+  "id": "d1q18",
+  "objective": "1.3",
+  "question": "A stored procedure lets SALES_ANALYST read a table it has no SELECT privilege on. Why?",
+  "options": [
+   "Stored procedures always bypass RBAC",
+   "By default procedures run with owner's rights",
+   "SALES_ANALYST inherits ACCOUNTADMIN when calling procedures",
+   "Procedures run as the SYSTEM user"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Procedures default to owner's rights, executing with the owner's privileges. EXECUTE AS CALLER changes this.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/stored-procedure/stored-procedures-rights"
+ },
+ {
+  "id": "d1q19",
+  "objective": "1.3",
+  "question": "Which statement about Snowflake sequences is TRUE?",
+  "options": [
+   "Values are guaranteed to be consecutive with no gaps",
+   "Values are unique but gaps may occur",
+   "Sequences are account-level objects",
+   "A sequence can only be used by one table"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Sequences generate unique values, but gap-free ordering isn't guaranteed.",
+  "ref": "https://docs.snowflake.com/en/user-guide/querying-sequences"
+ },
+ {
+  "id": "d1q20",
+  "objective": "1.3",
+  "question": "What is the main difference between a UDF and a stored procedure?",
+  "options": [
+   "UDFs can only be written in SQL",
+   "A UDF is called inside a SQL expression and returns a value; a procedure is invoked with CALL and can perform DDL/DML",
+   "Stored procedures cannot accept arguments",
+   "UDFs run with caller's rights and procedures cannot"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "UDFs are used in expressions (SELECT f(x)). Procedures are invoked with CALL and can run administrative and procedural logic.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/stored-procedures-vs-udfs"
+ },
+ {
+  "id": "d1q21",
+  "objective": "1.3",
+  "question": "Which system role is used to manage accounts within an organization?",
+  "options": [
+   "ACCOUNTADMIN",
+   "SYSADMIN",
+   "ORGADMIN",
+   "SECURITYADMIN"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "ORGADMIN manages organization-level operations such as creating accounts and viewing org usage.",
+  "ref": "https://docs.snowflake.com/en/user-guide/organizations"
+ },
+ {
+  "id": "d1q22",
+  "objective": "1.3",
+  "question": "Which object is defined by wrapping a COPY INTO statement for continuous loading?",
+  "options": [
+   "Task",
+   "Stream",
+   "Pipe",
+   "External function"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "A pipe contains the COPY INTO statement that Snowpipe uses to load files as they arrive.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-snowpipe-intro"
+ },
+ {
+  "id": "d1q23",
+  "objective": "1.3",
+  "question": "Which command shows a table's parameter values and the level at which each was set?",
+  "options": [
+   "DESCRIBE TABLE t",
+   "SHOW PARAMETERS IN TABLE t",
+   "SELECT * FROM t",
+   "SHOW GRANTS ON TABLE t"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "SHOW PARAMETERS IN TABLE lists the parameters and a level column showing where each value was set.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/show-parameters"
+ },
+ {
+  "id": "d1q24",
+  "objective": "1.3",
+  "question": "Which languages can be used to write Snowflake UDFs? (Select TWO)",
+  "options": [
+   "Python",
+   "JavaScript",
+   "COBOL",
+   "Ruby"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "UDFs support SQL, JavaScript, Python, Java and Scala.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/udf/udf-overview"
+ },
+ {
+  "id": "d1q25",
+  "objective": "1.4",
+  "question": "Dashboard users report queries waiting in the queue during peak hours; individual queries run fast once they start. What is the best fix?",
+  "options": [
+   "Increase the warehouse size",
+   "Configure a multi-cluster warehouse (scale out)",
+   "Set AUTO_SUSPEND to 0",
+   "Add a clustering key"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Queuing from concurrency is solved by scaling out with more clusters. A larger size helps single complex queries.",
+  "ref": "https://docs.snowflake.com/en/user-guide/warehouses-multicluster"
+ },
+ {
+  "id": "d1q26",
+  "objective": "1.4",
+  "question": "A single complex transformation spills large amounts of data to remote storage. What should be done first?",
+  "options": [
+   "Increase the warehouse size",
+   "Increase MAX_CLUSTER_COUNT",
+   "Switch to the Economy scaling policy",
+   "Lower AUTO_SUSPEND"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Spilling means the warehouse lacks memory/local disk for the query. Scaling up adds both; more clusters don't help one query.",
+  "ref": "https://docs.snowflake.com/en/user-guide/performance-query-warehouse-size"
+ },
+ {
+  "id": "d1q27",
+  "objective": "1.4",
+  "question": "A Medium (4 credits/hour) standard warehouse runs for 15 minutes and then suspends. How many credits are consumed?",
+  "options": [
+   "4",
+   "2",
+   "1",
+   "0.25"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "4 credits/hr × 0.25 hr = 1 credit. Billing is per second after the first 60 seconds.",
+  "ref": "https://docs.snowflake.com/en/user-guide/cost-understanding-compute"
+ },
+ {
+  "id": "d1q28",
+  "objective": "1.4",
+  "question": "A warehouse is resumed, runs a 10-second query, and then is suspended immediately. How much running time is billed?",
+  "options": [
+   "10 seconds",
+   "30 seconds",
+   "60 seconds",
+   "1 hour"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Each start/resume bills a 60-second minimum, then per second after that.",
+  "ref": "https://docs.snowflake.com/en/user-guide/warehouses-overview"
+ },
+ {
+  "id": "d1q29",
+  "objective": "1.4",
+  "question": "A multi-cluster warehouse serves hundreds of analysts. A few seconds of queuing at peak is acceptable, and the priority is minimizing active clusters. Which scaling policy fits?",
+  "options": [
+   "Standard",
+   "Economy",
+   "Maximized",
+   "Snowpark-optimized"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Economy starts a new cluster only when there's enough load to keep it busy about 6 minutes, saving credits at the cost of some queuing.",
+  "ref": "https://docs.snowflake.com/en/user-guide/warehouses-multicluster"
+ },
+ {
+  "id": "d1q30",
+  "objective": "1.4",
+  "question": "Under the Standard scaling policy, when does a multi-cluster warehouse start an additional cluster?",
+  "options": [
+   "Only after the existing clusters have been busy for 6 minutes",
+   "As soon as a query is queued or the system detects more queries than running clusters can handle",
+   "Only at fixed scheduled times",
+   "Never; Standard keeps a fixed number of clusters"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Standard favors performance by starting clusters immediately when queuing is detected.",
+  "ref": "https://docs.snowflake.com/en/user-guide/warehouses-multicluster"
+ },
+ {
+  "id": "d1q31",
+  "objective": "1.4",
+  "question": "A multi-cluster warehouse has MIN_CLUSTER_COUNT = 3 and MAX_CLUSTER_COUNT = 3. Which mode is this?",
+  "options": [
+   "Auto-scale",
+   "Maximized",
+   "Economy",
+   "Standard"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "When min equals max, the warehouse runs in Maximized mode: all clusters start with the warehouse.",
+  "ref": "https://docs.snowflake.com/en/user-guide/warehouses-multicluster"
+ },
+ {
+  "id": "d1q32",
+  "objective": "1.4",
+  "question": "A data science team trains ML models with Snowpark Python and hits out-of-memory errors. Which warehouse type should they use?",
+  "options": [
+   "X-Small standard warehouse",
+   "Snowpark-optimized warehouse",
+   "Multi-cluster warehouse in Maximized mode",
+   "Any warehouse with AUTO_RESUME = FALSE"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Snowpark-optimized warehouses give much more memory per node for memory-intensive workloads like ML training.",
+  "ref": "https://docs.snowflake.com/en/user-guide/warehouses-snowpark-optimized"
+ },
+ {
+  "id": "d1q33",
+  "objective": "1.4",
+  "question": "A warehouse is resized from Small to Large while a long query is running. What happens?",
+  "options": [
+   "The running query is cancelled and restarted",
+   "The running query finishes on the old resources; new and queued queries use the new size",
+   "The resize waits until the warehouse is suspended",
+   "The running query immediately speeds up"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Resizing doesn't affect running queries; additional compute applies to queued and new queries.",
+  "ref": "https://docs.snowflake.com/en/user-guide/warehouses-tasks"
+ },
+ {
+  "id": "d1q34",
+  "objective": "1.4",
+  "question": "Which is a downside of a very short AUTO_SUSPEND value for a BI warehouse?",
+  "options": [
+   "Queries can't use the result cache",
+   "The warehouse (local disk) cache is lost on each suspend, and frequent resumes incur the 60-second minimum",
+   "Auto-resume is disabled",
+   "The warehouse can't scale out"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Suspending drops the warehouse cache, and every resume bills at least 60 seconds. BI workloads often benefit from a longer suspend.",
+  "ref": "https://docs.snowflake.com/en/user-guide/warehouses-considerations"
+ },
+ {
+  "id": "d1q35",
+  "objective": "1.4",
+  "question": "Finance, marketing and data engineering all run heavy workloads. What is the recommended setup for isolation and cost attribution?",
+  "options": [
+   "One very large shared warehouse",
+   "Separate warehouses per team/workload",
+   "One multi-cluster warehouse with MAX_CLUSTER_COUNT = 10",
+   "Run all workloads on Cloud Services only"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Separate warehouses isolate workloads so they don't interfere, and make credit usage easy to attribute.",
+  "ref": "https://docs.snowflake.com/en/user-guide/warehouses-considerations"
+ },
+ {
+  "id": "d1q36",
+  "objective": "1.4",
+  "question": "Compared with Gen 1, what is TRUE of Gen 2 standard warehouses?",
+  "options": [
+   "They are only available for Snowpark workloads",
+   "They use newer hardware/software and typically run analytics and DML faster, at a higher hourly credit rate",
+   "They cannot auto-suspend",
+   "They do not support multi-cluster"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Gen 2 improves performance, notably for DML such as MERGE/UPDATE/DELETE. The per-hour rate is higher, but jobs often finish sooner.",
+  "ref": "https://docs.snowflake.com/en/user-guide/warehouses-gen2"
+ },
+ {
+  "id": "d1q37",
+  "objective": "1.4",
+  "question": "How many credits per hour does an X-Large Gen 1 standard warehouse consume?",
+  "options": [
+   "8",
+   "16",
+   "32",
+   "64"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "XS=1, S=2, M=4, L=8, XL=16. Each size doubles.",
+  "ref": "https://docs.snowflake.com/en/user-guide/warehouses-overview"
+ },
+ {
+  "id": "d1q38",
+  "objective": "1.4",
+  "question": "Which multi-cluster warehouse properties can be changed to control cost? (Select TWO)",
+  "options": [
+   "MAX_CLUSTER_COUNT",
+   "SCALING_POLICY",
+   "DATA_RETENTION_TIME_IN_DAYS",
+   "CLUSTER BY"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "Lowering MAX_CLUSTER_COUNT and using the Economy policy both limit cluster usage. The other two are table properties.",
+  "ref": "https://docs.snowflake.com/en/user-guide/warehouses-multicluster"
+ },
+ {
+  "id": "d1q39",
+  "objective": "1.5",
+  "question": "What is the approximate size of a micro-partition?",
+  "options": [
+   "1–16 MB compressed",
+   "50–500 MB of uncompressed data",
+   "1–5 GB uncompressed",
+   "Defined by the user at table creation"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Micro-partitions hold 50–500 MB of uncompressed data and are stored compressed.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-clustering-micropartitions"
+ },
+ {
+  "id": "d1q40",
+  "objective": "1.5",
+  "question": "An UPDATE modifies a few rows in a micro-partition. What happens physically?",
+  "options": [
+   "The micro-partition is modified in place",
+   "New micro-partitions are written, and the old ones are retained for Time Travel/Fail-safe",
+   "The whole table is rewritten",
+   "The rows are moved to a delta log only"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Micro-partitions are immutable; DML writes new micro-partitions and the old versions support Time Travel.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-clustering-micropartitions"
+ },
+ {
+  "id": "d1q41",
+  "objective": "1.5",
+  "question": "What enables Snowflake to skip micro-partitions when a query filters on ORDER_DATE?",
+  "options": [
+   "Indexes defined on ORDER_DATE",
+   "Per-micro-partition metadata, such as min/max values for each column",
+   "Result cache",
+   "Secure views"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Pruning uses micro-partition metadata (value ranges) to avoid scanning irrelevant partitions.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-clustering-micropartitions"
+ },
+ {
+  "id": "d1q42",
+  "objective": "1.5",
+  "question": "When is defining a clustering key MOST appropriate?",
+  "options": [
+   "On a small lookup table with 10,000 rows",
+   "On a multi-terabyte table frequently filtered on the same column, where pruning is poor",
+   "On every table by default",
+   "On a temporary table used once"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Clustering keys benefit very large tables with consistent filter patterns and poor clustering. Reclustering costs credits.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-clustering-keys"
+ },
+ {
+  "id": "d1q43",
+  "objective": "1.5",
+  "question": "Which function returns clustering statistics for a table and column set?",
+  "options": [
+   "SYSTEM$CLUSTERING_INFORMATION",
+   "SYSTEM$PIPE_STATUS",
+   "GET_DDL",
+   "SYSTEM$WAIT"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "SYSTEM$CLUSTERING_INFORMATION returns average depth, overlaps and a histogram.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/functions/system_clustering_information"
+ },
+ {
+  "id": "d1q44",
+  "objective": "1.5",
+  "question": "An ETL staging table is fully reloaded every night and doesn't need Fail-safe. Which table type minimizes storage cost while persisting between sessions?",
+  "options": [
+   "Permanent",
+   "Temporary",
+   "Transient",
+   "External"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Transient tables persist until dropped but have no Fail-safe, which cuts storage cost. Temporary tables vanish with the session.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-temp-transient"
+ },
+ {
+  "id": "d1q45",
+  "objective": "1.5",
+  "question": "Which table types have NO Fail-safe period? (Select TWO)",
+  "options": [
+   "Permanent",
+   "Transient",
+   "Temporary",
+   "Dynamic"
+  ],
+  "answer": [
+   1,
+   2
+  ],
+  "explanation": "Transient and temporary tables have no Fail-safe. Permanent tables have 7 days.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-temp-transient"
+ },
+ {
+  "id": "d1q46",
+  "objective": "1.5",
+  "question": "A user creates a temporary table named CUSTOMERS in a schema that already has a permanent table CUSTOMERS. What happens when the user queries CUSTOMERS in that session?",
+  "options": [
+   "An error is raised",
+   "The permanent table is returned",
+   "The temporary table takes precedence in that session",
+   "Both are UNIONed"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Within the session, the temporary table hides the permanent table with the same name.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-temp-transient"
+ },
+ {
+  "id": "d1q47",
+  "objective": "1.5",
+  "question": "A team wants Snowflake tables whose data files are stored in their own cloud storage in an open format readable by other engines. Which table type fits?",
+  "options": [
+   "Transient table",
+   "Apache Iceberg table",
+   "Hybrid table",
+   "Temporary table"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Iceberg tables store data and metadata in the open Iceberg format in your cloud storage (external volume).",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-iceberg"
+ },
+ {
+  "id": "d1q48",
+  "objective": "1.5",
+  "question": "Which statement about external tables is TRUE?",
+  "options": [
+   "They support INSERT and UPDATE",
+   "They are read-only and reference files in an external stage",
+   "They have 7 days of Fail-safe",
+   "Data is copied into Snowflake storage on creation"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "External tables are read-only; Snowflake stores only metadata about files in an external stage.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-external-intro"
+ },
+ {
+  "id": "d1q49",
+  "objective": "1.5",
+  "question": "Which property tells a dynamic table how fresh its data must be?",
+  "options": [
+   "DATA_RETENTION_TIME_IN_DAYS",
+   "TARGET_LAG",
+   "AUTO_SUSPEND",
+   "MAX_CLUSTER_COUNT"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "TARGET_LAG sets the maximum staleness; Snowflake schedules refreshes to meet it.",
+  "ref": "https://docs.snowflake.com/en/user-guide/dynamic-tables-about"
+ },
+ {
+  "id": "d1q50",
+  "objective": "1.5",
+  "question": "Which are limitations of materialized views? (Select TWO)",
+  "options": [
+   "They can query only a single table (no joins)",
+   "They require Enterprise edition or higher",
+   "They can't be secure",
+   "They are never automatically refreshed"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "Materialized views need Enterprise+, can't contain joins, and are maintained automatically by a background service. They can be secure.",
+  "ref": "https://docs.snowflake.com/en/user-guide/views-materialized"
+ },
+ {
+  "id": "d1q51",
+  "objective": "1.5",
+  "question": "A provider wants to share a view with a consumer account without exposing the view's SQL definition. What should they use?",
+  "options": [
+   "A standard view",
+   "A secure view",
+   "A temporary table",
+   "A materialized view without SECURE"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Secure views hide their definition from non-owners and are required for sharing views.",
+  "ref": "https://docs.snowflake.com/en/user-guide/views-secure"
+ },
+ {
+  "id": "d1q52",
+  "objective": "1.5",
+  "question": "Why might a secure view perform slower than an equivalent standard view?",
+  "options": [
+   "It always uses a smaller warehouse",
+   "Some query optimizations are disabled to prevent leaking hidden data",
+   "It is recomputed in Cloud Services",
+   "It bypasses micro-partition pruning entirely"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Snowflake skips certain optimizations for secure views so filter push-downs can't expose protected data.",
+  "ref": "https://docs.snowflake.com/en/user-guide/views-secure"
+ },
+ {
+  "id": "d1q53",
+  "objective": "1.6",
+  "question": "A company wants a chatbot that answers questions from thousands of PDF-derived policy documents using retrieval-augmented generation (RAG). Which Snowflake feature provides the retrieval layer?",
+  "options": [
+   "Cortex Analyst",
+   "Cortex Search",
+   "Materialized views",
+   "Search Optimization Service"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Cortex Search is a managed hybrid (vector + keyword) search service built for RAG over unstructured text.",
+  "ref": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search/cortex-search-overview"
+ },
+ {
+  "id": "d1q54",
+  "objective": "1.6",
+  "question": "Business users want to ask natural-language questions like 'What were Q3 sales by region?' and get answers from structured tables. Which feature fits best?",
+  "options": [
+   "Cortex Analyst with a semantic model",
+   "Cortex Search",
+   "Snowpipe Streaming",
+   "Streamlit with no data access"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Cortex Analyst converts natural language to SQL over structured data, guided by a semantic model/view.",
+  "ref": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-analyst"
+ },
+ {
+  "id": "d1q55",
+  "objective": "1.6",
+  "question": "An analyst wants to classify the sentiment of customer reviews inside a SELECT statement. What should they use?",
+  "options": [
+   "A Cortex AI SQL function such as AI_SENTIMENT",
+   "Cortex Analyst",
+   "A materialized view",
+   "SYSTEM$CLUSTERING_INFORMATION"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Cortex AI SQL functions (AI_SENTIMENT, AI_CLASSIFY, AI_COMPLETE, …) run LLM tasks directly in SQL.",
+  "ref": "https://docs.snowflake.com/en/user-guide/snowflake-cortex/aisql"
+ },
+ {
+  "id": "d1q56",
+  "objective": "1.6",
+  "question": "How does Snowpark for Python process DataFrame transformations?",
+  "options": [
+   "It downloads all data to the client and processes it locally",
+   "It lazily builds SQL that is pushed down and executed inside Snowflake when an action is called",
+   "It runs only on external Spark clusters",
+   "It requires data to be exported to a stage first"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Snowpark DataFrames are lazily evaluated and translated into SQL executed in Snowflake's compute.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/snowpark/index"
+ },
+ {
+  "id": "d1q57",
+  "objective": "1.6",
+  "question": "Which statements about Streamlit in Snowflake are TRUE? (Select TWO)",
+  "options": [
+   "Apps run inside Snowflake, so data doesn't need to leave the platform",
+   "Access to apps is governed by Snowflake role-based access control",
+   "Apps must be hosted on a separate public web server",
+   "Apps can only be written in JavaScript"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "Streamlit in Snowflake hosts Python apps within Snowflake, secured by RBAC.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/streamlit/about-streamlit"
+ },
+ {
+  "id": "d1q58",
+  "objective": "1.6",
+  "question": "A team wants to forecast daily sales using SQL only, with no ML coding. What should they use?",
+  "options": [
+   "The FORECAST ML function",
+   "Cortex Search",
+   "A secure view",
+   "Snowpipe"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Snowflake ML Functions such as FORECAST and ANOMALY_DETECTION build time-series models from SQL.",
+  "ref": "https://docs.snowflake.com/en/user-guide/ml-functions/forecasting"
+ },
+ {
+  "id": "d1q59",
+  "objective": "1.6",
+  "question": "Where can trained models be logged, versioned and used for inference within Snowflake?",
+  "options": [
+   "Snowflake Model Registry",
+   "Information Schema",
+   "Resource monitors",
+   "A user stage only"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "The Snowflake Model Registry stores models as schema-level objects with versions and supports inference.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/snowflake-ml/model-registry/overview"
+ },
+ {
+  "id": "d1q60",
+  "objective": "1.6",
+  "question": "Which runtimes can a Snowflake Notebook use? (Select TWO)",
+  "options": [
+   "Warehouse runtime",
+   "Container runtime (Snowpark Container Services)",
+   "A local Jupyter kernel on the user's laptop",
+   "Cloud Services layer only"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "Notebooks run on a warehouse runtime or a container runtime, which supports GPUs and pip packages.",
+  "ref": "https://docs.snowflake.com/en/user-guide/ui-snowsight/notebooks"
+ }
+]

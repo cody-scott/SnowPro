@@ -1,0 +1,35 @@
+[
+  { "week": 1, "focus": "Domain 1 — architecture, editions, interfaces, object hierarchy", "tasks": [
+    { "id": "w1-notes", "text": "Read notes 1.1 – 1.3" },
+    { "id": "w1-cards", "text": "Flashcards: Domain 1 (first pass)" },
+    { "id": "w1-quiz", "text": "Quiz: objectives 1.1 – 1.3, score ≥ 75%" },
+    { "id": "w1-trial", "text": "Create a Snowflake 30-day trial account and explore Snowsight" }
+  ]},
+  { "week": 2, "focus": "Domain 1 — warehouses, storage, AI/ML features", "tasks": [
+    { "id": "w2-notes", "text": "Read notes 1.4 – 1.6" },
+    { "id": "w2-cards", "text": "Flashcards: clear all Domain 1 cards due" },
+    { "id": "w2-quiz", "text": "Quiz: full Domain 1, score ≥ 80%" },
+    { "id": "w2-missed", "text": "Re-run Domain 1 missed questions until clear" }
+  ]},
+  { "week": 3, "focus": "Domain 2 — security, governance, cost", "tasks": [
+    { "id": "w3-notes", "text": "Read notes 2.1 – 2.3" },
+    { "id": "w3-quiz", "text": "Quiz: Domain 2, score ≥ 80%" },
+    { "id": "w3-review", "text": "Flashcard review: Domains 1–2" }
+  ]},
+  { "week": 4, "focus": "Domain 3 — loading, unloading, connectivity", "tasks": [
+    { "id": "w4-notes", "text": "Read notes 3.1 – 3.3" },
+    { "id": "w4-quiz", "text": "Quiz: Domain 3, score ≥ 80%" },
+    { "id": "w4-review", "text": "Flashcard review: Domains 1–3" }
+  ]},
+  { "week": 5, "focus": "Domains 4 & 5 — performance, caching, collaboration", "tasks": [
+    { "id": "w5-notes4", "text": "Read notes 4.1 – 4.4" },
+    { "id": "w5-notes5", "text": "Read notes 5.1 – 5.3" },
+    { "id": "w5-quiz", "text": "Quizzes: Domains 4 and 5, score ≥ 80%" }
+  ]},
+  { "week": 6, "focus": "Mock exams and weak-area review", "tasks": [
+    { "id": "w6-mock1", "text": "Mock exam #1 — review every miss" },
+    { "id": "w6-weak", "text": "Targeted quizzes on the two weakest objectives" },
+    { "id": "w6-official", "text": "Take Snowflake's official practice exam" },
+    { "id": "w6-mock2", "text": "Mock exam #2, score ≥ 85%, then book the exam" }
+  ]}
+]

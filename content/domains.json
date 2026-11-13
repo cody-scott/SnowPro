@@ -1,0 +1,46 @@
+[
+  {
+    "id": "d1", "num": "1.0", "title": "Snowflake AI Data Cloud Features and Architecture", "weight": 31, "color": "#29B5E8",
+    "objectives": [
+      { "id": "1.1", "title": "Describe and use the Snowflake architecture" },
+      { "id": "1.2", "title": "Use Snowflake interfaces and tools" },
+      { "id": "1.3", "title": "Differentiate Snowflake object hierarchy and types" },
+      { "id": "1.4", "title": "Configure virtual warehouses" },
+      { "id": "1.5", "title": "Explain Snowflake storage concepts" },
+      { "id": "1.6", "title": "Explain AI/ML and application development features" }
+    ]
+  },
+  {
+    "id": "d2", "num": "2.0", "title": "Account Management and Data Governance", "weight": 20, "color": "#11567F",
+    "objectives": [
+      { "id": "2.1", "title": "Explain the Snowflake security model and principles" },
+      { "id": "2.2", "title": "Define data governance features and how they are used" },
+      { "id": "2.3", "title": "Explain monitoring and cost management" }
+    ]
+  },
+  {
+    "id": "d3", "num": "3.0", "title": "Data Loading, Unloading, and Connectivity", "weight": 18, "color": "#D45B90",
+    "objectives": [
+      { "id": "3.1", "title": "Perform data loading and unloading" },
+      { "id": "3.2", "title": "Perform automated data ingestion" },
+      { "id": "3.3", "title": "Identify Snowflake connectors and integrations" }
+    ]
+  },
+  {
+    "id": "d4", "num": "4.0", "title": "Performance Optimization, Querying, and Transformation", "weight": 21, "color": "#FF9F36",
+    "objectives": [
+      { "id": "4.1", "title": "Evaluate query performance" },
+      { "id": "4.2", "title": "Optimize query performance" },
+      { "id": "4.3", "title": "Use Snowflake caching" },
+      { "id": "4.4", "title": "Perform data transformation techniques" }
+    ]
+  },
+  {
+    "id": "d5", "num": "5.0", "title": "Data Collaboration", "weight": 10, "color": "#71D3DC",
+    "objectives": [
+      { "id": "5.1", "title": "Explain data collaboration and protection" },
+      { "id": "5.2", "title": "Explain Snowflake's data sharing capabilities" },
+      { "id": "5.3", "title": "Share data using the Snowflake Marketplace and listings" }
+    ]
+  }
+]
