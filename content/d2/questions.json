@@ -103,7 +103,7 @@
   "question": "Which statements about database roles are true? (Select TWO)",
   "options": [
    "They can be granted to a share",
-   "They can't be activated as a session's primary role",
+   "They can't be activated in a session as a primary or secondary role",
    "They replace account roles entirely",
    "They can hold privileges on objects in any database",
    "They are only available in Business Critical"
@@ -112,7 +112,7 @@
    0,
    1
   ],
-  "explanation": "Database roles are scoped to one database, are granted to account roles or shares, and can't be used directly with USE ROLE.",
+  "explanation": "Database roles are scoped to one database and can't be activated in a session. To use one, grant it to an account role, or grant it to a share with GRANT DATABASE ROLE … TO SHARE.",
   "ref": "https://docs.snowflake.com/en/user-guide/security-access-control-overview#database-roles"
  },
  {
@@ -128,7 +128,7 @@
   "answer": [
    3
   ],
-  "explanation": "The most specific policy applies. A user-level policy overrides the account-level policy for that user.",
+  "explanation": "The most specific policy applies (security integration > user > account), so BOB's user-level policy overrides the account-level one.",
   "ref": "https://docs.snowflake.com/en/user-guide/network-policies"
  },
  {
@@ -136,7 +136,7 @@
   "objective": "2.1",
   "question": "A service account used by an ETL tool must authenticate without a password and support key rotation without downtime. What should be configured?",
   "options": [
-   "Key-pair authentication using RSA_PUBLIC_KEY and RSA_PUBLIC_KEY_2",
+   "Key-pair authentication, rotated with ALTER USER … ROTATE KEY PAIR",
    "SAML 2.0 federated authentication",
    "A session policy with a long idle timeout",
    "MFA with Duo push"
@@ -144,7 +144,7 @@
   "answer": [
    0
   ],
-  "explanation": "Key-pair authentication suits programmatic access. Two public key slots let you add the new key before removing the old one.",
+  "explanation": "Key-pair authentication suits programmatic access. ROTATE KEY PAIR keeps the old public key valid for a grace period (alternatively, swap between the RSA_PUBLIC_KEY and RSA_PUBLIC_KEY_2 slots).",
   "ref": "https://docs.snowflake.com/en/user-guide/key-pair-auth"
  },
  {
@@ -160,7 +160,7 @@
   "answer": [
    1
   ],
-  "explanation": "SERVICE users can't use passwords or MFA; they authenticate with key-pair, OAuth, programmatic access tokens or workload identity federation.",
+  "explanation": "SERVICE users can't sign in with a password or enroll in MFA. LEGACY_SERVICE is deprecated and is being converted to SERVICE.",
   "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-user"
  },
  {
@@ -192,7 +192,7 @@
   "answer": [
    3
   ],
-  "explanation": "Active keys are retired after 30 days. Yearly re-encryption is a separate feature, periodic rekeying (Enterprise).",
+  "explanation": "Keys are rotated automatically once they are more than 30 days old; retired keys can only decrypt. Yearly re-encryption is a separate feature, periodic rekeying (Enterprise).",
   "ref": "https://docs.snowflake.com/en/user-guide/security-encryption-manage"
  },
  {
@@ -436,7 +436,7 @@
   "answer": [
    2
   ],
-  "explanation": "Tags propagate down the object hierarchy (database → schema → table → column).",
+  "explanation": "Tags are inherited down the object hierarchy (database → schema → table → column). Setting the tag directly on a child overrides the inherited value.",
   "ref": "https://docs.snowflake.com/en/user-guide/object-tagging"
  },
  {
@@ -452,7 +452,7 @@
   "answer": [
    3
   ],
-  "explanation": "An object can have up to 50 tags.",
+  "explanation": "An object can have up to 50 tags. There is also a limit of 50 different tags across all the columns of one table combined.",
   "ref": "https://docs.snowflake.com/en/user-guide/object-tagging"
  },
  {
@@ -494,15 +494,15 @@
   "options": [
    "Row access policies",
    "Network policies",
-   "Object tagging",
+   "Tag-based masking policies",
    "Secure views",
-   "Encryption at rest"
+   "Creating and setting object tags"
   ],
   "answer": [
    0,
    2
   ],
-  "explanation": "Column- and row-level security, tagging, classification and access history are Enterprise features. Secure views and network policies are on all editions.",
+  "explanation": "Row access policies and tag-based masking (like masking, classification and access history) need Enterprise. Secure views, network policies and basic tagging work on every edition.",
   "ref": "https://docs.snowflake.com/en/user-guide/intro-editions"
  },
  {
@@ -602,7 +602,7 @@
    2,
    4
   ],
-  "explanation": "Monitors can cover many warehouses, but each warehouse has at most one. They track warehouse credits only and are created by ACCOUNTADMIN.",
+  "explanation": "Monitors can cover many warehouses, but each warehouse has at most one. They track warehouse credits (plus the cloud services that support them), not serverless features, and only ACCOUNTADMIN can create them.",
   "ref": "https://docs.snowflake.com/en/user-guide/resource-monitors"
  },
  {
@@ -618,7 +618,7 @@
   "answer": [
    1
   ],
-  "explanation": "Budgets cover warehouses and serverless features for a group of objects, and notify on projected overspend.",
+  "explanation": "Custom budgets cover warehouses and serverless features for a group of objects (added individually or by tag) and notify when spend is projected to exceed the monthly limit.",
   "ref": "https://docs.snowflake.com/en/user-guide/budgets"
  },
  {
@@ -668,7 +668,7 @@
   "answer": [
    0
   ],
-  "explanation": "Only ACCOUNTADMIN has access by default. Grant IMPORTED PRIVILEGES or SNOWFLAKE database roles to give other roles access.",
+  "explanation": "Every user can see the SNOWFLAKE database, but only ACCOUNTADMIN can open its schemas by default. ACCOUNTADMIN can grant IMPORTED PRIVILEGES, or a SNOWFLAKE database role such as USAGE_VIEWER, to other roles.",
   "ref": "https://docs.snowflake.com/en/sql-reference/account-usage#enabling-the-snowflake-database-usage-for-other-roles"
  },
  {
