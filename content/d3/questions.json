@@ -1,0 +1,1010 @@
+[
+ {
+  "id": "d3q01",
+  "objective": "3.1",
+  "question": "Which file format can be used to LOAD data but NOT to unload it?",
+  "options": [
+   "XML",
+   "CSV",
+   "JSON",
+   "Parquet"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Snowflake loads CSV, JSON, Avro, ORC, Parquet and XML, but unloads only CSV, JSON and Parquet.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-file-format"
+ },
+ {
+  "id": "d3q02",
+  "objective": "3.1",
+  "question": "A JSON file contains a single top-level array of 10,000 objects. Which file format option loads each object as its own row?",
+  "options": [
+   "STRIP_NULL_VALUES = TRUE",
+   "STRIP_OUTER_ARRAY = TRUE",
+   "SKIP_HEADER = 1",
+   "ALLOW_DUPLICATE = TRUE"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "STRIP_OUTER_ARRAY removes the outer brackets so each element becomes a separate row.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-file-format"
+ },
+ {
+  "id": "d3q03",
+  "objective": "3.1",
+  "question": "An analyst wants to stage files that only they will use, but load them into several different tables. Which stage fits with no extra objects to create?",
+  "options": [
+   "User stage",
+   "Named internal stage",
+   "Named external stage",
+   "Table stage"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Each user has a user stage (@~) for files managed by one user that can be loaded into multiple tables.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-local-file-system-create-stage"
+ },
+ {
+  "id": "d3q04",
+  "objective": "3.1",
+  "question": "Which statements about table stages are true? (Select TWO)",
+  "options": [
+   "They have no grantable privileges; you must own the table to use them",
+   "They can be dropped with DROP STAGE",
+   "They can be shared by many tables",
+   "They support COPY transformations",
+   "They are referenced as @%table_name"
+  ],
+  "answer": [
+   0,
+   4
+  ],
+  "explanation": "A table stage (@%t) is tied to its table, has no privileges of its own (table ownership is required), can't be altered or dropped, loads only that table and doesn't support transformations.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-local-file-system-create-stage"
+ },
+ {
+  "id": "d3q05",
+  "objective": "3.1",
+  "question": "Which command uploads a file from a local machine to a named internal stage?",
+  "options": [
+   "COPY INTO @stage",
+   "INSERT INTO @stage",
+   "PUT",
+   "GET"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "PUT uploads local files to an internal stage (gzip-compressing them by default). GET downloads from an internal stage.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/put"
+ },
+ {
+  "id": "d3q06",
+  "objective": "3.1",
+  "question": "A team needs to upload files directly to a named EXTERNAL stage on Amazon S3. What should they use?",
+  "options": [
+   "The cloud provider's tools (for example, the AWS CLI)",
+   "PUT",
+   "COPY INTO <location>",
+   "GET"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "PUT supports internal stages only. Upload to external stages with the cloud provider's own tools.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/put"
+ },
+ {
+  "id": "d3q07",
+  "objective": "3.1",
+  "question": "Users must open staged documents through pre-signed URLs. Which encryption type should the named internal stage use?",
+  "options": [
+   "AWS_CSE",
+   "SNOWFLAKE_FULL",
+   "AWS_SSE_KMS",
+   "SNOWFLAKE_SSE"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "SNOWFLAKE_SSE is server-side only, which is required for pre-signed URLs. The default, SNOWFLAKE_FULL, also encrypts client-side, so downloaded files are unreadable.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-stage"
+ },
+ {
+  "id": "d3q08",
+  "objective": "3.1",
+  "question": "What is the default encryption type for a named internal stage, and can it be changed later?",
+  "options": [
+   "SNOWFLAKE_FULL; no",
+   "SNOWFLAKE_SSE; yes, with ALTER STAGE",
+   "SNOWFLAKE_FULL; yes, with ALTER STAGE",
+   "NONE; yes"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "The default is SNOWFLAKE_FULL (client-side plus server-side) and the encryption type can't be changed after the stage is created.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-stage"
+ },
+ {
+  "id": "d3q09",
+  "objective": "3.1",
+  "question": "Which statement about directory tables is correct?",
+  "options": [
+   "They are supported only on internal stages",
+   "They store file-level metadata such as path, size and file URL for files on a stage",
+   "They store the contents of each file as a VARIANT",
+   "They are separate schema objects with their own privileges"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "A directory table is an implicit object on an internal or external stage that stores file metadata. It has no grantable privileges of its own.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-dirtables"
+ },
+ {
+  "id": "d3q10",
+  "objective": "3.1",
+  "question": "Directory table auto-refresh on an external stage appears on the bill as which kind of charge?",
+  "options": [
+   "Automatic clustering",
+   "Snowpipe charges",
+   "Warehouse credits",
+   "Data transfer only"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Snowpipe is used for the event notifications behind auto-refresh, so the overhead shows as Snowpipe charges. Manual refreshes are billed as cloud services.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-dirtables"
+ },
+ {
+  "id": "d3q11",
+  "objective": "3.1",
+  "question": "Which option for choosing files in COPY INTO <table> is generally the FASTEST?",
+  "options": [
+   "PATTERN with a regular expression",
+   "A FILES list of specific file names",
+   "Loading the whole stage with no filter",
+   "A LIKE predicate"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "A discrete FILES list (up to 1,000 names) is generally fastest; PATTERN matching is generally slowest.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-considerations-load"
+ },
+ {
+  "id": "d3q12",
+  "objective": "3.1",
+  "question": "Which operations are supported in a COPY INTO <table> transformation SELECT? (Select TWO)",
+  "options": [
+   "Casting columns",
+   "Filtering rows with WHERE",
+   "Reordering and omitting columns",
+   "GROUP BY aggregation",
+   "JOIN with another table"
+  ],
+  "answer": [
+   0,
+   2
+  ],
+  "explanation": "COPY transformations support reordering, omitting and casting columns and truncating strings. WHERE, JOIN, GROUP BY and FLATTEN aren't supported.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-transform"
+ },
+ {
+  "id": "d3q13",
+  "objective": "3.1",
+  "question": "A file was loaded into a table yesterday and hasn't changed. Running the same COPY INTO again will:",
+  "options": [
+   "Fail with an error",
+   "Load it again, creating duplicates",
+   "Truncate the table and reload",
+   "Skip it because of the table's load metadata"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "The table keeps load metadata for 64 days and COPY skips files it has already loaded unless FORCE = TRUE.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-considerations-load"
+ },
+ {
+  "id": "d3q14",
+  "objective": "3.1",
+  "question": "You must reload a file that was already loaded and hasn't changed. Which copy option does this?",
+  "options": [
+   "FORCE = TRUE",
+   "LOAD_UNCERTAIN_FILES = TRUE",
+   "ON_ERROR = CONTINUE",
+   "PURGE = TRUE"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "FORCE = TRUE loads all files regardless of load metadata, which can duplicate data. LOAD_UNCERTAIN_FILES only covers files whose status is unknown.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/copy-into-table"
+ },
+ {
+  "id": "d3q15",
+  "objective": "3.1",
+  "question": "COPY is skipping files staged 90 days ago because their load status is unknown. Which option loads them while still using any available load metadata to avoid duplicates?",
+  "options": [
+   "FORCE = TRUE",
+   "VALIDATION_MODE = RETURN_ALL_ERRORS",
+   "SIZE_LIMIT",
+   "LOAD_UNCERTAIN_FILES = TRUE"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "LOAD_UNCERTAIN_FILES loads files with expired metadata but still checks metadata where it exists. FORCE ignores metadata entirely.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-considerations-load"
+ },
+ {
+  "id": "d3q16",
+  "objective": "3.1",
+  "question": "What file size does Snowflake recommend for efficient parallel loading?",
+  "options": [
+   "1–10 MB uncompressed",
+   "Exactly 16 MB",
+   "About 100–250 MB compressed",
+   "At least 5 GB"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Aim for data files of roughly 100–250 MB (or larger) compressed. The number of parallel load operations can't exceed the number of files.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-considerations-prepare"
+ },
+ {
+  "id": "d3q17",
+  "objective": "3.1",
+  "question": "What is the default ON_ERROR behavior for a bulk COPY INTO <table>?",
+  "options": [
+   "CONTINUE",
+   "SKIP_FILE",
+   "SKIP_FILE_10%",
+   "ABORT_STATEMENT"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Bulk COPY defaults to ABORT_STATEMENT. Snowpipe defaults to SKIP_FILE.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/copy-into-table"
+ },
+ {
+  "id": "d3q18",
+  "objective": "3.1",
+  "question": "A load should keep all valid rows and skip only the rows that fail to parse. Which setting?",
+  "options": [
+   "ON_ERROR = CONTINUE",
+   "ON_ERROR = ABORT_STATEMENT",
+   "VALIDATION_MODE = RETURN_ERRORS",
+   "ON_ERROR = SKIP_FILE"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "CONTINUE loads the file and skips rows with errors. SKIP_FILE drops the whole file on any error.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/copy-into-table"
+ },
+ {
+  "id": "d3q19",
+  "objective": "3.1",
+  "question": "You want to check staged files for errors WITHOUT loading any data. What should you use?",
+  "options": [
+   "VALIDATION_MODE = RETURN_ERRORS",
+   "ON_ERROR = CONTINUE",
+   "The VALIDATE function before the load",
+   "PURGE = FALSE"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "VALIDATION_MODE makes COPY validate the files and return results instead of loading. VALIDATE checks a load that has already run.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/copy-into-table"
+ },
+ {
+  "id": "d3q20",
+  "objective": "3.1",
+  "question": "Which COPY statement can NOT use VALIDATION_MODE?",
+  "options": [
+   "A COPY that transforms data with a SELECT",
+   "A COPY that loads CSV files",
+   "A COPY with a FILES list",
+   "A COPY from an external stage"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "VALIDATION_MODE doesn't support COPY statements that transform data during a load.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-transform"
+ },
+ {
+  "id": "d3q21",
+  "objective": "3.1",
+  "question": "After a COPY with ON_ERROR = CONTINUE, how can you list the rows that were rejected?",
+  "options": [
+   "SELECT * FROM TABLE(VALIDATE(mytable, JOB_ID => '_last'))",
+   "SHOW ERRORS",
+   "Query the table stage with LIST",
+   "Re-run with FORCE = TRUE"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "VALIDATE returns errors from a past COPY (it returns nothing for ABORT_STATEMENT loads). Error logging can also record rejected rows in an error table.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/functions/validate"
+ },
+ {
+  "id": "d3q22",
+  "objective": "3.1",
+  "question": "Which copy option loads semi-structured data into table columns with the same names, regardless of column order?",
+  "options": [
+   "MATCH_BY_COLUMN_NAME",
+   "PARSE_HEADER",
+   "ENFORCE_LENGTH",
+   "INCLUDE_METADATA"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "MATCH_BY_COLUMN_NAME = CASE_SENSITIVE | CASE_INSENSITIVE matches by name. It can't be combined with a transformation SELECT.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/copy-into-table"
+ },
+ {
+  "id": "d3q23",
+  "objective": "3.1",
+  "question": "A team needs load history for the last 6 months. Where should they look?",
+  "options": [
+   "INFORMATION_SCHEMA.LOAD_HISTORY",
+   "The COPY_HISTORY table function",
+   "SNOWFLAKE.ACCOUNT_USAGE.COPY_HISTORY",
+   "SHOW PIPES"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Account Usage COPY_HISTORY keeps 365 days. The Information Schema view and table function cover only 14 days.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/account-usage/copy_history"
+ },
+ {
+  "id": "d3q24",
+  "objective": "3.1",
+  "question": "By default, how does COPY INTO <location> write its output?",
+  "options": [
+   "One 5 GB file",
+   "One file per micro-partition",
+   "Multiple files in parallel, up to 16 MB each",
+   "One file per table"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Unloads are split into multiple files in parallel; MAX_FILE_SIZE defaults to 16 MB (up to 5 GB on cloud storage). SINGLE = TRUE writes one file.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-unload-considerations"
+ },
+ {
+  "id": "d3q25",
+  "objective": "3.1",
+  "question": "An export must be written into separate folders by date. Which COPY INTO <location> option does this?",
+  "options": [
+   "PARTITION BY",
+   "MAX_FILE_SIZE",
+   "SINGLE = TRUE",
+   "DETAILED_OUTPUT"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "PARTITION BY <expr> splits unloaded rows into separate files and paths by the expression's value.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/copy-into-location"
+ },
+ {
+  "id": "d3q26",
+  "objective": "3.1",
+  "question": "A user tries to load a 2 GB CSV file through the Snowsight load wizard. What is the issue?",
+  "options": [
+   "Snowsight can't load CSV",
+   "There is no issue",
+   "Each file in the wizard can be at most 250 MB",
+   "The wizard only loads into new tables"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "The Snowsight wizard loads up to 250 files at a time, each up to 250 MB. For larger files use Snowflake CLI (PUT) or cloud storage.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-web-ui"
+ },
+ {
+  "id": "d3q27",
+  "objective": "3.2",
+  "question": "Files land in S3 throughout the day and must be loaded within minutes without managing a warehouse. What should you use?",
+  "options": [
+   "Snowpipe with auto-ingest",
+   "A dynamic table",
+   "An external table",
+   "Bulk COPY on a schedule"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Snowpipe auto-ingest loads files as cloud event notifications arrive, on serverless compute, typically within a minute.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-snowpipe-intro"
+ },
+ {
+  "id": "d3q28",
+  "objective": "3.2",
+  "question": "How does a Snowpipe auto-ingest pipe on Amazon S3 learn about new files?",
+  "options": [
+   "It polls the bucket every minute",
+   "S3 event notifications delivered through SQS, SNS or EventBridge",
+   "A task runs ALTER PIPE REFRESH",
+   "The Kafka connector"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "S3 auto-ingest uses event notifications via SQS, SNS or EventBridge. GCS uses Pub/Sub and Azure uses Event Grid, each with a notification integration.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-snowpipe-intro"
+ },
+ {
+  "id": "d3q29",
+  "objective": "3.2",
+  "question": "What does a pipe object contain?",
+  "options": [
+   "A single COPY INTO statement",
+   "A task schedule",
+   "A warehouse definition",
+   "A stream offset"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "A pipe is a schema object that holds one COPY INTO statement, which Snowpipe runs for each new file.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-snowpipe-intro"
+ },
+ {
+  "id": "d3q30",
+  "objective": "3.2",
+  "question": "Files existed in the stage before a new auto-ingest pipe was created. How do you load the ones from the past week?",
+  "options": [
+   "COPY INTO with FORCE = TRUE inside the pipe",
+   "Recreate the pipe",
+   "ALTER PIPE ... REFRESH",
+   "They load automatically"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Auto-ingest only sees files that arrive after notifications are set up. ALTER PIPE ... REFRESH queues files staged in the last 7 days.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/alter-pipe"
+ },
+ {
+  "id": "d3q31",
+  "objective": "3.2",
+  "question": "How is Snowpipe billed?",
+  "options": [
+   "A fixed number of credits per GB loaded, with no per-file charge",
+   "Per file loaded",
+   "Storage only",
+   "Warehouse credits per second"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Snowpipe charges a fixed credit rate per GB (uncompressed for text files, stored size for binary files). There's no warehouse and no per-file fee.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-snowpipe-billing"
+ },
+ {
+  "id": "d3q32",
+  "objective": "3.2",
+  "question": "What is the default ON_ERROR setting for Snowpipe?",
+  "options": [
+   "ABORT_STATEMENT",
+   "SKIP_FILE",
+   "SKIP_FILE_1%",
+   "CONTINUE"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Snowpipe defaults to SKIP_FILE: it skips files with errors and keeps loading others. Bulk COPY defaults to ABORT_STATEMENT.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/copy-into-table"
+ },
+ {
+  "id": "d3q33",
+  "objective": "3.2",
+  "question": "Which statements about Snowpipe load metadata are true? (Select TWO)",
+  "options": [
+   "It is shared with bulk COPY load metadata",
+   "A file re-staged with the same name within 14 days is ignored",
+   "Each pipe remembers files it processed in the last 14 days",
+   "Snowpipe guarantees files load in the order they were staged",
+   "It lasts 64 days"
+  ],
+  "answer": [
+   1,
+   2
+  ],
+  "explanation": "Each pipe keeps 14 days of load metadata by path and name and ignores matching files, even if modified. It's separate from the table's 64-day bulk metadata, and load order isn't guaranteed.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-snowpipe-intro"
+ },
+ {
+  "id": "d3q34",
+  "objective": "3.2",
+  "question": "IoT devices send individual events that must be queryable within seconds. No files are produced. What fits best?",
+  "options": [
+   "Snowpipe auto-ingest",
+   "An external table",
+   "Snowpipe Streaming",
+   "Bulk COPY every minute"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Snowpipe Streaming writes rows directly to tables without staging files, with latency as low as about 5 seconds.",
+  "ref": "https://docs.snowflake.com/en/user-guide/snowpipe-streaming/data-load-snowpipe-streaming-overview"
+ },
+ {
+  "id": "d3q35",
+  "objective": "3.2",
+  "question": "A stream on a table has captured changes. An analyst runs SELECT * FROM the stream twice. What happens to the offset?",
+  "options": [
+   "It advances after the first SELECT",
+   "It resets to the table creation time",
+   "The stream becomes stale",
+   "It does not advance"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Querying a stream doesn't advance its offset. The offset moves only when the stream is consumed in a committed DML statement.",
+  "ref": "https://docs.snowflake.com/en/user-guide/streams-intro"
+ },
+ {
+  "id": "d3q36",
+  "objective": "3.2",
+  "question": "How does a standard stream show an UPDATE to a row?",
+  "options": [
+   "One row with METADATA$ACTION = 'UPDATE'",
+   "A DELETE and an INSERT, both with METADATA$ISUPDATE = TRUE",
+   "Only the new row as an INSERT",
+   "It doesn't track updates"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Updates appear as a DELETE + INSERT pair with METADATA$ISUPDATE = TRUE. METADATA$ACTION is only INSERT or DELETE.",
+  "ref": "https://docs.snowflake.com/en/user-guide/streams-intro"
+ },
+ {
+  "id": "d3q37",
+  "objective": "3.2",
+  "question": "Which stream type should you create on an EXTERNAL table?",
+  "options": [
+   "Delta",
+   "Append-only",
+   "Insert-only",
+   "Standard"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "External tables (and externally managed Iceberg tables) support insert-only streams.",
+  "ref": "https://docs.snowflake.com/en/user-guide/streams-intro"
+ },
+ {
+  "id": "d3q38",
+  "objective": "3.2",
+  "question": "A table has DATA_RETENTION_TIME_IN_DAYS = 1 and a stream on it hasn't been consumed for 5 days. With default settings, is the stream stale?",
+  "options": [
+   "No: Snowflake extends retention for the stream up to 14 days by default",
+   "Yes, after 1 day",
+   "Yes, streams always go stale after 24 hours",
+   "No: streams never go stale"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "If retention is under 14 days, Snowflake extends it for unconsumed streams up to MAX_DATA_EXTENSION_TIME_IN_DAYS (default 14).",
+  "ref": "https://docs.snowflake.com/en/user-guide/streams-intro"
+ },
+ {
+  "id": "d3q39",
+  "objective": "3.2",
+  "question": "A task is created with CREATE TASK. What is its state, and what must you do for it to run on its schedule?",
+  "options": [
+   "Started; nothing",
+   "Started; ALTER TASK ... SUSPEND first",
+   "Suspended; ALTER TASK ... RESUME",
+   "Suspended; EXECUTE TASK"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "New tasks are suspended. ALTER TASK ... RESUME starts the schedule; EXECUTE TASK runs it once.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tasks-intro"
+ },
+ {
+  "id": "d3q40",
+  "objective": "3.2",
+  "question": "How do you create a serverless task?",
+  "options": [
+   "Set WAREHOUSE = SERVERLESS",
+   "Omit the WAREHOUSE parameter",
+   "Use CREATE SERVERLESS TASK",
+   "Set SCHEDULE = 'SERVERLESS'"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Leave out WAREHOUSE and Snowflake manages compute (up to the equivalent of an XXLARGE warehouse).",
+  "ref": "https://docs.snowflake.com/en/user-guide/tasks-intro"
+ },
+ {
+  "id": "d3q41",
+  "objective": "3.2",
+  "question": "A scheduled task should run only when a stream has new rows, without spending warehouse time otherwise. What should the task include?",
+  "options": [
+   "TARGET_LAG = DOWNSTREAM",
+   "ON_ERROR = SKIP_FILE",
+   "AFTER my_stream",
+   "WHEN SYSTEM$STREAM_HAS_DATA('my_stream')"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "The WHEN condition skips the run when the stream is empty, so the task body and warehouse don't run.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tasks-intro"
+ },
+ {
+  "id": "d3q42",
+  "objective": "3.2",
+  "question": "Which statements about task graphs are true? (Select TWO)",
+  "options": [
+   "A graph can contain up to 1,000 tasks",
+   "Finalizer tasks can have child tasks",
+   "Each child task needs its own schedule",
+   "A task can have only one parent",
+   "Only the root task has a schedule"
+  ],
+  "answer": [
+   0,
+   4
+  ],
+  "explanation": "The root task defines the schedule; children run AFTER their parents. A graph holds up to 1,000 tasks, each with up to 100 parents and 100 children. A finalizer can't have children.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tasks-graphs"
+ },
+ {
+  "id": "d3q43",
+  "objective": "3.2",
+  "question": "What is the minimum TARGET_LAG for a dynamic table?",
+  "options": [
+   "5 minutes",
+   "10 seconds",
+   "60 seconds",
+   "1 second"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "The minimum target lag is 60 seconds.",
+  "ref": "https://docs.snowflake.com/en/user-guide/dynamic-tables/overview"
+ },
+ {
+  "id": "d3q44",
+  "objective": "3.2",
+  "question": "An intermediate dynamic table should refresh only when the dynamic tables that read from it need fresh data. Which setting?",
+  "options": [
+   "TARGET_LAG = '1 minute'",
+   "REFRESH_MODE = FULL",
+   "TARGET_LAG = DOWNSTREAM",
+   "INITIALIZE = ON_SCHEDULE"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "TARGET_LAG = DOWNSTREAM gives the table no schedule of its own; it refreshes when a downstream dynamic table needs it.",
+  "ref": "https://docs.snowflake.com/en/user-guide/dynamic-tables/overview"
+ },
+ {
+  "id": "d3q45",
+  "objective": "3.2",
+  "question": "A pipeline needs multi-table joins and aggregations defined in SQL, refreshed automatically every 10 minutes, with no custom orchestration. What fits best?",
+  "options": [
+   "Materialized view",
+   "Dynamic table",
+   "Snowpipe",
+   "Streams and tasks with stored procedures"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Dynamic tables are declarative: write the SELECT and a target lag and Snowflake handles refresh order. Materialized views can't join.",
+  "ref": "https://docs.snowflake.com/en/user-guide/dynamic-tables/decision-guide"
+ },
+ {
+  "id": "d3q46",
+  "objective": "3.2",
+  "question": "A transformation must call a stored procedure with IF/ELSE logic each time new data arrives. Which approach does Snowflake recommend?",
+  "options": [
+   "Materialized view",
+   "Secure view",
+   "Streams and tasks",
+   "Dynamic table"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Procedural logic (stored procedures, branching, loops, external calls) is a job for streams and tasks. Dynamic tables don't support stored procedures.",
+  "ref": "https://docs.snowflake.com/en/user-guide/dynamic-tables/decision-guide"
+ },
+ {
+  "id": "d3q47",
+  "objective": "3.2",
+  "question": "Snowflake Openflow is built on which open-source project?",
+  "options": [
+   "Apache Spark",
+   "Apache Airflow",
+   "Apache NiFi",
+   "Apache Kafka"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Openflow is a managed integration service built on Apache NiFi. It can run in Snowflake (on Snowpark Container Services) or in your own cloud (BYOC).",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-integration/openflow/about"
+ },
+ {
+  "id": "d3q48",
+  "objective": "3.3",
+  "question": "A Java application needs to connect to Snowflake and run queries. Which should it use?",
+  "options": [
+   "ODBC driver",
+   "Snowpipe REST API",
+   "JDBC driver",
+   "Kafka connector"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "The JDBC driver connects Java applications and JDBC-based tools to Snowflake.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/drivers"
+ },
+ {
+  "id": "d3q49",
+  "objective": "3.3",
+  "question": "Which Snowflake interface lets an application submit SQL statements over REST, without installing a driver?",
+  "options": [
+   "Snowpark",
+   "Snowpipe REST API",
+   "ODBC",
+   "SQL API"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "The SQL API is a REST API for submitting SQL and checking statement status. The Snowpipe REST API only queues files for a pipe.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/sql-api/intro"
+ },
+ {
+  "id": "d3q50",
+  "objective": "3.3",
+  "question": "Where does the Snowflake Connector for Kafka run, and how does it load data? (Select TWO)",
+  "options": [
+   "Inside a Snowflake warehouse",
+   "In a Kafka Connect cluster",
+   "With bulk COPY on a user warehouse",
+   "It also writes data from Snowflake back to Kafka",
+   "With Snowpipe or Snowpipe Streaming"
+  ],
+  "answer": [
+   1,
+   4
+  ],
+  "explanation": "The Kafka connector runs in a Kafka Connect cluster and loads topics using Snowpipe or Snowpipe Streaming. It only moves data into Snowflake.",
+  "ref": "https://docs.snowflake.com/en/user-guide/kafka-connector-overview"
+ },
+ {
+  "id": "d3q51",
+  "objective": "3.3",
+  "question": "Which connector moves data in BOTH directions between Snowflake and a Spark cluster?",
+  "options": [
+   "ODBC driver",
+   "Kafka connector",
+   "Spark connector",
+   "Python connector"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "The Spark connector reads Snowflake data into DataFrames and writes DataFrames back, using JDBC and query pushdown.",
+  "ref": "https://docs.snowflake.com/en/user-guide/spark-connector-overview"
+ },
+ {
+  "id": "d3q52",
+  "objective": "3.3",
+  "question": "By default, which role can create a storage integration?",
+  "options": [
+   "SECURITYADMIN",
+   "Any role with CREATE STAGE",
+   "ACCOUNTADMIN",
+   "SYSADMIN"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Only ACCOUNTADMIN has the global CREATE INTEGRATION privilege by default. It can be granted to other roles.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-storage-integration"
+ },
+ {
+  "id": "d3q53",
+  "objective": "3.3",
+  "question": "What is the main benefit of creating external stages with a storage integration?",
+  "options": [
+   "Stage creators don't need to supply cloud credentials or secret keys",
+   "Faster loading",
+   "It enables Time Travel on staged files",
+   "Data is copied into Snowflake storage"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "A storage integration stores a Snowflake-generated IAM identity that the cloud admin trusts, so stages don't carry credentials.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-storage-integration"
+ },
+ {
+  "id": "d3q54",
+  "objective": "3.3",
+  "question": "Which statements about storage integrations are true? (Select TWO)",
+  "options": [
+   "They are used with internal stages",
+   "One storage integration can be used by many external stages",
+   "Storage integrations are schema-level objects",
+   "Each external stage needs its own storage integration",
+   "STORAGE_ALLOWED_LOCATIONS limits which bucket paths stages can use"
+  ],
+  "answer": [
+   1,
+   4
+  ],
+  "explanation": "A single integration can support multiple external stages, as long as each stage URL is inside STORAGE_ALLOWED_LOCATIONS. Integrations are account-level objects.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-storage-integration"
+ },
+ {
+  "id": "d3q55",
+  "objective": "3.3",
+  "question": "While configuring an S3 storage integration, which values from DESC INTEGRATION are added to the IAM role's trust policy?",
+  "options": [
+   "STORAGE_AWS_IAM_USER_ARN and STORAGE_AWS_EXTERNAL_ID",
+   "STORAGE_AWS_ROLE_ARN and the bucket name",
+   "AWS_KEY_ID and AWS_SECRET_KEY",
+   "The account locator and region"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "DESC INTEGRATION shows the Snowflake IAM user ARN and the external ID, which you add to the role's trust relationship.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-s3-config-storage-integration"
+ },
+ {
+  "id": "d3q56",
+  "objective": "3.3",
+  "question": "A role only loads data through an existing external stage that uses a storage integration. Which privilege does it need?",
+  "options": [
+   "CREATE INTEGRATION",
+   "USAGE on the stage",
+   "OWNERSHIP of the integration",
+   "USAGE on the storage integration"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Loading or unloading through the stage needs USAGE on the stage; USAGE on the integration isn't required. The stage owner needs USAGE on the integration.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-load-s3-config-storage-integration"
+ },
+ {
+  "id": "d3q57",
+  "objective": "3.3",
+  "question": "Which object is required before you can create a Git repository clone in Snowflake?",
+  "options": [
+   "An API integration with API_PROVIDER = git_https_api",
+   "A storage integration",
+   "A named internal stage",
+   "A notification integration"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "CREATE GIT REPOSITORY requires an API integration whose API_PROVIDER is git_https_api. A secret is added only if the repo needs credentials.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-git-repository"
+ },
+ {
+  "id": "d3q58",
+  "objective": "3.3",
+  "question": "How do you pull the latest commits from the remote repository into a Snowflake Git repository clone?",
+  "options": [
+   "ALTER GIT REPOSITORY my_repo REFRESH",
+   "COPY INTO @my_repo",
+   "ALTER GIT REPOSITORY my_repo FETCH",
+   "GIT PULL my_repo"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "ALTER GIT REPOSITORY ... FETCH fetches branches, tags and commits (or use the Fetch button in Snowsight).",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-git-repository"
+ },
+ {
+  "id": "d3q59",
+  "objective": "3.3",
+  "question": "How can you run a SQL script stored on the main branch of a Git repository clone named my_repo?",
+  "options": [
+   "EXECUTE IMMEDIATE FROM @my_repo/branches/main/setup.sql",
+   "CALL @my_repo/main/setup.sql",
+   "RUN SCRIPT my_repo.setup",
+   "GET @my_repo/setup.sql"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Files in a repository clone are addressed like a stage (@repo/branches/<branch>/...), and EXECUTE IMMEDIATE FROM runs a .sql file.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/git/git-overview"
+ },
+ {
+  "id": "d3q60",
+  "objective": "3.3",
+  "question": "Which Snowflake features can commit and push changes back to a remote Git repository? (Select TWO)",
+  "options": [
+   "Notebooks",
+   "Workspaces",
+   "Stored procedures",
+   "Tasks",
+   "EXECUTE IMMEDIATE FROM"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "Only Workspaces, Streamlit apps and notebooks can write to the repository. Other Snowflake code has read-only access.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/git/git-limitations"
+ },
+ {
+  "id": "d3q61",
+  "objective": "3.3",
+  "question": "A Python UDF must call a third-party REST API on the internet. Which integration enables this?",
+  "options": [
+   "External access integration",
+   "Notification integration",
+   "Security integration",
+   "Storage integration"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "An external access integration (with network rules and optional secrets) lets UDF and procedure handler code reach external network locations.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/external-network-access/external-network-access-overview"
+ },
+ {
+  "id": "d3q62",
+  "objective": "3.3",
+  "question": "What is an API integration used for? (Select TWO)",
+  "options": [
+   "Calling external functions through a cloud API gateway",
+   "Defining network policies",
+   "SAML single sign-on",
+   "Connecting to a remote Git repository",
+   "Granting access to S3 buckets for stages"
+  ],
+  "answer": [
+   0,
+   3
+  ],
+  "explanation": "API integrations store HTTPS API details for external functions (API gateways), Git repositories (git_https_api) and external MCP servers. S3 access uses a storage integration; SSO uses a security integration.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-api-integration"
+ }
+]
