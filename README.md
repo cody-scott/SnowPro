@@ -2,6 +2,8 @@
 
 Interactive study plan, notes, flashcards (spaced repetition) and quizzes for the SnowPro Core exam.
 
+**Live site:** https://cody-scott.github.io/SnowPro/
+
 ```bash
 npm install
 npm run dev      # local dev server

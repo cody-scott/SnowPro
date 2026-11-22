@@ -1,0 +1,870 @@
+[
+ {
+  "id": "d4q01",
+  "objective": "4.1",
+  "question": "The Query Profile for a slow query shows a large value for \"Bytes spilled to remote storage\". What is the BEST first step?",
+  "options": [
+   "Enable multi-cluster auto-scaling",
+   "Add a clustering key",
+   "Turn off the result cache",
+   "Run the query on a larger warehouse"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Spilling means intermediate results didn't fit in memory or local disk. A larger warehouse adds memory and local storage; processing smaller batches also helps.",
+  "ref": "https://docs.snowflake.com/en/user-guide/performance-query-warehouse-memory"
+ },
+ {
+  "id": "d4q02",
+  "objective": "4.1",
+  "question": "In the Query Profile, a TableScan shows \"Partitions scanned: 9,850\" and \"Partitions total: 10,000\", and a Filter above it removes most rows. What does this indicate?",
+  "options": [
+   "Exploding join",
+   "Queuing",
+   "Inefficient pruning",
+   "Remote spilling"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Scanning almost all partitions while a filter later removes most rows means pruning isn't effective. Better clustering or search optimization can help.",
+  "ref": "https://docs.snowflake.com/en/user-guide/ui-snowsight-activity"
+ },
+ {
+  "id": "d4q03",
+  "objective": "4.1",
+  "question": "A Join operator outputs 500 million rows from inputs of 10,000 and 50,000 rows. What is the most likely cause?",
+  "options": [
+   "A missing or overly broad join condition (exploding join)",
+   "The result cache is disabled",
+   "The tables need clustering",
+   "The warehouse is too small"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "An exploding join (often a Cartesian product from a missing condition, or keys that match many rows) produces far more rows than its inputs.",
+  "ref": "https://docs.snowflake.com/en/user-guide/ui-snowsight-activity"
+ },
+ {
+  "id": "d4q04",
+  "objective": "4.1",
+  "question": "Dashboard queries are fast once running but spend a long time queued at peak hours. What should you do? (Select TWO)",
+  "options": [
+   "Convert the warehouse to multi-cluster (auto-scale)",
+   "Enable search optimization",
+   "Increase the warehouse size",
+   "Move some of the workload to another warehouse",
+   "Add a clustering key"
+  ],
+  "answer": [
+   0,
+   3
+  ],
+  "explanation": "Queuing is a concurrency problem: scale out with a multi-cluster warehouse or spread queries across warehouses. A bigger size doesn't solve concurrency.",
+  "ref": "https://docs.snowflake.com/en/user-guide/performance-query-warehouse-queue"
+ },
+ {
+  "id": "d4q05",
+  "objective": "4.1",
+  "question": "The Query Profile shows a UnionAll operator with an Aggregate operator directly above it. What change would likely help?",
+  "options": [
+   "Add ORDER BY",
+   "Replace UNION with UNION ALL if duplicates don't need removing",
+   "Add LIMIT",
+   "Use a larger warehouse"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "UNION removes duplicates, which shows as UnionAll plus an Aggregate. If duplicate removal isn't needed, UNION ALL avoids the extra step.",
+  "ref": "https://docs.snowflake.com/en/user-guide/ui-snowsight-activity"
+ },
+ {
+  "id": "d4q06",
+  "objective": "4.1",
+  "question": "Which Snowflake feature reports conditions such as \"Exploding join\", \"Filter not selective\" and \"Remote spilling\" with a suggested fix?",
+  "options": [
+   "Trust Center",
+   "Budgets",
+   "Resource monitors",
+   "Query insights"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Query insights appear in Snowsight and in the QUERY_INSIGHTS view, each with a message and recommended next step.",
+  "ref": "https://docs.snowflake.com/en/user-guide/query-insights"
+ },
+ {
+  "id": "d4q07",
+  "objective": "4.1",
+  "question": "A FinOps team needs the warehouse credits used by each individual query over the last month. Which view should they use?",
+  "options": [
+   "LOGIN_HISTORY",
+   "QUERY_ATTRIBUTION_HISTORY",
+   "METERING_DAILY_HISTORY",
+   "WAREHOUSE_METERING_HISTORY"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "QUERY_ATTRIBUTION_HISTORY attributes warehouse compute credits to each query (excluding idle time). WAREHOUSE_METERING_HISTORY is per warehouse per hour.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/account-usage/query_attribution_history"
+ },
+ {
+  "id": "d4q08",
+  "objective": "4.1",
+  "question": "Which statements about QUERY_ATTRIBUTION_HISTORY are true? (Select TWO)",
+  "options": [
+   "It shows only the last 7 days",
+   "It covers serverless features such as Snowpipe",
+   "It includes warehouse idle time",
+   "It excludes warehouse idle time",
+   "Latency can be up to 8 hours"
+  ],
+  "answer": [
+   3,
+   4
+  ],
+  "explanation": "Attributed credits cover query execution only (no idle time), latency can be up to eight hours, and it keeps 365 days. Very short queries are excluded.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/account-usage/query_attribution_history"
+ },
+ {
+  "id": "d4q09",
+  "objective": "4.1",
+  "question": "Which QUERY_HISTORY column shows time a query waited because the warehouse was busy with other queries?",
+  "options": [
+   "QUEUED_PROVISIONING_TIME",
+   "QUEUED_OVERLOAD_TIME",
+   "TRANSACTION_BLOCKED_TIME",
+   "COMPILATION_TIME"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "QUEUED_OVERLOAD_TIME is time queued because the warehouse was overloaded. QUEUED_PROVISIONING_TIME is waiting for the warehouse to start, resume or resize.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/account-usage/query_history"
+ },
+ {
+  "id": "d4q10",
+  "objective": "4.1",
+  "question": "A query runs thousands of times a day with different literal values. How can you analyze all those runs together?",
+  "options": [
+   "Use RESULT_SCAN",
+   "Group by QUERY_PARAMETERIZED_HASH",
+   "Group by SESSION_ID",
+   "Group by QUERY_ID"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "QUERY_PARAMETERIZED_HASH is the same for queries that differ only in literal values, so you can aggregate cost and time per pattern.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/account-usage/query_history"
+ },
+ {
+  "id": "d4q11",
+  "objective": "4.1",
+  "question": "You need query history from 3 months ago, including queries by users who have since been dropped. Where should you look?",
+  "options": [
+   "SNOWFLAKE.ACCOUNT_USAGE.QUERY_HISTORY",
+   "INFORMATION_SCHEMA.QUERY_HISTORY",
+   "Snowsight Query History",
+   "SHOW QUERIES"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Account Usage QUERY_HISTORY keeps 365 days. Information Schema table functions cover 7 days, and Snowsight Query History 14 days.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/account-usage/query_history"
+ },
+ {
+  "id": "d4q12",
+  "objective": "4.1",
+  "question": "According to Snowflake, why is it easier to tune a warehouse that runs similar workloads?",
+  "options": [
+   "Multi-cluster warehouses require similar workloads",
+   "Similar workloads cost fewer credits per hour",
+   "Similar queries share the result cache automatically",
+   "A performance change helps all queries instead of being wasted on ones that don't benefit"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "If a warehouse runs very different queries, the cost of an optimization (for example, a larger size) may be wasted on queries that don't benefit.",
+  "ref": "https://docs.snowflake.com/en/user-guide/performance-query-warehouse"
+ },
+ {
+  "id": "d4q13",
+  "objective": "4.1",
+  "question": "What happens if you lower MAX_CONCURRENCY_LEVEL on a warehouse from its default of 8?",
+  "options": [
+   "Credits per hour are reduced",
+   "Queries can never queue",
+   "Each running query gets more resources, but more queries may queue",
+   "The warehouse automatically adds clusters"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Fewer concurrent queries means more resources each, but extra queries wait in the queue.",
+  "ref": "https://docs.snowflake.com/en/user-guide/performance-query-warehouse-max-concurrency"
+ },
+ {
+  "id": "d4q14",
+  "objective": "4.2",
+  "question": "A warehouse runs mostly small queries, but occasional ad-hoc queries scan billions of rows with selective filters and slow everyone else down. Which feature targets this?",
+  "options": [
+   "Result cache",
+   "Materialized views",
+   "Query acceleration service",
+   "Search optimization service"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "QAS offloads parts of large-scan outlier queries to serverless compute, reducing their impact on the warehouse.",
+  "ref": "https://docs.snowflake.com/en/user-guide/query-acceleration-service"
+ },
+ {
+  "id": "d4q15",
+  "objective": "4.2",
+  "question": "What is the default QUERY_ACCELERATION_MAX_SCALE_FACTOR, and what does 0 mean?",
+  "options": [
+   "1; disabled",
+   "10; disabled",
+   "8; disabled",
+   "8; no upper limit"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "The default scale factor is 8. Setting it to 0 removes the upper bound on resources QAS can lease.",
+  "ref": "https://docs.snowflake.com/en/user-guide/query-acceleration-service"
+ },
+ {
+  "id": "d4q16",
+  "objective": "4.2",
+  "question": "Which of these can tell you whether a past query would have benefited from query acceleration? (Select TWO)",
+  "options": [
+   "SYSTEM$ESTIMATE_QUERY_ACCELERATION",
+   "SEARCH_OPTIMIZATION_HISTORY",
+   "QUERY_ACCELERATION_ELIGIBLE view",
+   "SYSTEM$CLUSTERING_INFORMATION",
+   "RESULT_SCAN"
+  ],
+  "answer": [
+   0,
+   2
+  ],
+  "explanation": "Use the SYSTEM$ESTIMATE_QUERY_ACCELERATION function for a query ID, or the Account Usage QUERY_ACCELERATION_ELIGIBLE view.",
+  "ref": "https://docs.snowflake.com/en/user-guide/query-acceleration-service"
+ },
+ {
+  "id": "d4q17",
+  "objective": "4.2",
+  "question": "Which is a common reason a query is NOT eligible for query acceleration?",
+  "options": [
+   "It runs on a Medium warehouse",
+   "It aggregates with low-cardinality GROUP BY",
+   "It scans too few partitions",
+   "It uses a selective WHERE clause"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "If there aren't enough partitions to scan, acquiring QAS resources costs more than it saves. Non-selective filters, blocking LIMITs and nondeterministic functions also prevent it.",
+  "ref": "https://docs.snowflake.com/en/user-guide/query-acceleration-service"
+ },
+ {
+  "id": "d4q18",
+  "objective": "4.2",
+  "question": "Users look up individual customers by email in a 20 TB table; each query returns one or two rows but scans most partitions. Which feature fits best?",
+  "options": [
+   "Search optimization service",
+   "Larger warehouse",
+   "Clustering key on email",
+   "Query acceleration service"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Search optimization targets selective point lookups, building a search access path to skip micro-partitions. Clustering on a high-cardinality column like email is costly.",
+  "ref": "https://docs.snowflake.com/en/user-guide/search-optimization-service"
+ },
+ {
+  "id": "d4q19",
+  "objective": "4.2",
+  "question": "Which query patterns can the search optimization service speed up? (Select TWO)",
+  "options": [
+   "SELECT COUNT(*) FROM t",
+   "Full-table aggregation with no filter",
+   "Equality lookups on a field inside a VARIANT column",
+   "ORDER BY on every column",
+   "WHERE description LIKE '%error%'"
+  ],
+  "answer": [
+   2,
+   4
+  ],
+  "explanation": "Search optimization supports substring/regex searches and equality, IN and other predicates on semi-structured fields, among others. Unfiltered scans don't benefit.",
+  "ref": "https://docs.snowflake.com/en/user-guide/search-optimization-service"
+ },
+ {
+  "id": "d4q20",
+  "objective": "4.2",
+  "question": "Which privileges are needed to run ALTER TABLE t ADD SEARCH OPTIMIZATION? (Select TWO)",
+  "options": [
+   "OWNERSHIP on the table",
+   "ADD SEARCH OPTIMIZATION on the schema",
+   "SELECT on the table only",
+   "ACCOUNTADMIN",
+   "MODIFY on the warehouse"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "Adding search optimization needs OWNERSHIP of the table and ADD SEARCH OPTIMIZATION on its schema. Querying with it only needs SELECT.",
+  "ref": "https://docs.snowflake.com/en/user-guide/search-optimization/enabling"
+ },
+ {
+  "id": "d4q21",
+  "objective": "4.2",
+  "question": "Search optimization is enabled on column c2 (STRING). Which predicate can NOT use it?",
+  "options": [
+   "WHERE c2 = 2",
+   "WHERE c2 = '1'",
+   "WHERE CAST(c2 AS NUMBER) = 2",
+   "WHERE c2 IN ('1', '2')"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "A cast on the column prevents search optimization. An implicit cast on the constant (c2 = 2) is fine.",
+  "ref": "https://docs.snowflake.com/en/user-guide/search-optimization-service"
+ },
+ {
+  "id": "d4q22",
+  "objective": "4.2",
+  "question": "Which table is the BEST candidate for a clustering key?",
+  "options": [
+   "A 500 MB lookup table",
+   "A table queried only by primary key, once a week",
+   "A 30 TB fact table mostly queried with date-range filters, showing poor pruning",
+   "A 50 GB table that is fully reloaded every hour"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Clustering keys pay off on very large tables whose queries filter on the same columns and prune poorly. Small or constantly changing tables aren't good candidates.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-clustering-keys"
+ },
+ {
+  "id": "d4q23",
+  "objective": "4.2",
+  "question": "When defining a multi-column clustering key, how does Snowflake recommend ordering the columns?",
+  "options": [
+   "Alphabetically",
+   "Highest to lowest cardinality",
+   "Lowest to highest cardinality",
+   "Order doesn't matter"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Order columns from lowest to highest cardinality; a high-cardinality column first reduces the effectiveness of clustering on later columns.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-clustering-keys"
+ },
+ {
+  "id": "d4q24",
+  "objective": "4.2",
+  "question": "You want to cluster a large table on a TIMESTAMP column with near-unique values. What does Snowflake recommend?",
+  "options": [
+   "Cluster directly on the timestamp",
+   "Add search optimization instead of clustering",
+   "Cluster on an expression such as TO_DATE(ts)",
+   "Never cluster on time columns"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "For very high cardinality, cluster on an expression that keeps the order but reduces distinct values, such as truncating timestamps to dates.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-clustering-keys"
+ },
+ {
+  "id": "d4q25",
+  "objective": "4.2",
+  "question": "Which statements about Automatic Clustering are true? (Select TWO)",
+  "options": [
+   "It blocks DML while reclustering",
+   "You must assign a warehouse for reclustering",
+   "It can be paused with ALTER TABLE ... SUSPEND RECLUSTER",
+   "It runs on serverless compute and is billed in credits",
+   "It is free"
+  ],
+  "answer": [
+   2,
+   3
+  ],
+  "explanation": "Reclustering runs in the background without a user warehouse, consumes credits, doesn't block DML, and can be suspended and resumed per table.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-auto-reclustering"
+ },
+ {
+  "id": "d4q26",
+  "objective": "4.2",
+  "question": "Which can be used in a materialized view definition?",
+  "options": [
+   "A window function",
+   "A UDF",
+   "SUM with GROUP BY on a single table",
+   "A join between two tables"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Materialized views query a single table and support a limited set of aggregates such as SUM, COUNT, MIN, MAX and AVG. Joins, window functions and UDFs aren't allowed.",
+  "ref": "https://docs.snowflake.com/en/user-guide/views-materialized"
+ },
+ {
+  "id": "d4q27",
+  "objective": "4.2",
+  "question": "A query runs against a base table whose materialized view hasn't finished refreshing after recent DML. What does Snowflake return?",
+  "options": [
+   "An error",
+   "Stale results from the materialized view",
+   "Results from the result cache only",
+   "Current results: up-to-date parts of the view plus newer data from the base table"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Materialized views are always current. If maintenance is behind, Snowflake uses the up-to-date portions and reads newer data from the base table.",
+  "ref": "https://docs.snowflake.com/en/user-guide/views-materialized"
+ },
+ {
+  "id": "d4q28",
+  "objective": "4.2",
+  "question": "Which features require Enterprise Edition or higher? (Select TWO)",
+  "options": [
+   "Result cache",
+   "Clustering keys",
+   "Query Profile",
+   "Materialized views",
+   "Query acceleration service"
+  ],
+  "answer": [
+   3,
+   4
+  ],
+  "explanation": "QAS, search optimization and materialized views are Enterprise features. Clustering keys, the result cache and Query Profile are available on all editions.",
+  "ref": "https://docs.snowflake.com/en/user-guide/views-materialized"
+ },
+ {
+  "id": "d4q29",
+  "objective": "4.3",
+  "question": "A user reruns an identical query 2 hours later. The data hasn't changed and the warehouse is suspended. What happens?",
+  "options": [
+   "The result is returned from the query result cache",
+   "The query fails",
+   "The warehouse resumes and reruns the query",
+   "The result comes from the warehouse cache"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "An identical query on unchanged data can reuse the persisted result; Snowflake skips execution, so the warehouse isn't needed.",
+  "ref": "https://docs.snowflake.com/en/user-guide/querying-persisted-results"
+ },
+ {
+  "id": "d4q30",
+  "objective": "4.3",
+  "question": "How long is a query result kept in the result cache?",
+  "options": [
+   "24 hours, reset on each reuse, up to 31 days from the first run",
+   "1 hour",
+   "Until the warehouse suspends",
+   "7 days"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Persisted results expire after 24 hours; each reuse resets the period, up to 31 days after the query first ran.",
+  "ref": "https://docs.snowflake.com/en/user-guide/querying-persisted-results"
+ },
+ {
+  "id": "d4q31",
+  "objective": "4.3",
+  "question": "Which of these will prevent a query from reusing a cached result? (Select TWO)",
+  "options": [
+   "The query is run on a different warehouse",
+   "The same query is run by a different user whose role has the needed privileges",
+   "The query calls RANDOM()",
+   "The query is run 3 hours later",
+   "Rows were inserted into the table since the first run"
+  ],
+  "answer": [
+   2,
+   4
+  ],
+  "explanation": "Non-reusable functions and changed table data prevent reuse. Another user with the right privileges, another warehouse, or a few hours later doesn't.",
+  "ref": "https://docs.snowflake.com/en/user-guide/querying-persisted-results"
+ },
+ {
+  "id": "d4q32",
+  "objective": "4.3",
+  "question": "Which pair of queries is MOST likely to share a cached result?",
+  "options": [
+   "SELECT * FROM sales; and SELECT * FROM sales LIMIT 100;",
+   "SELECT * FROM sales; and SELECT * FROM sales s;",
+   "SELECT * FROM sales; and select * from sales;",
+   "SELECT * FROM sales; and SELECT * FROM sales;"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "The text must match exactly. The docs say a table alias or lowercase keywords prevent 100% reuse.",
+  "ref": "https://docs.snowflake.com/en/user-guide/querying-persisted-results"
+ },
+ {
+  "id": "d4q33",
+  "objective": "4.3",
+  "question": "A team is benchmarking query performance and wants every run to execute fully. What should they set?",
+  "options": [
+   "AUTO_SUSPEND = 0",
+   "USE_CACHED_RESULT = FALSE",
+   "STATEMENT_TIMEOUT_IN_SECONDS = 0",
+   "ENABLE_QUERY_ACCELERATION = FALSE"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "USE_CACHED_RESULT = FALSE (account, user or session) disables result reuse.",
+  "ref": "https://docs.snowflake.com/en/user-guide/querying-persisted-results"
+ },
+ {
+  "id": "d4q34",
+  "objective": "4.3",
+  "question": "SELECT COUNT(*) FROM big_table returns instantly and the Query Profile shows a \"Metadata-based Result\". Why?",
+  "options": [
+   "The count came from micro-partition metadata without a warehouse",
+   "The warehouse cache had the table",
+   "A materialized view answered it",
+   "Search optimization was used"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Some queries, such as COUNT(*), are computed purely from metadata and aren't processed by a virtual warehouse.",
+  "ref": "https://docs.snowflake.com/en/user-guide/ui-snowsight-activity"
+ },
+ {
+  "id": "d4q35",
+  "objective": "4.3",
+  "question": "After reducing a BI warehouse's AUTO_SUSPEND from 30 minutes to 1 minute, dashboard queries became slower after idle periods. Why?",
+  "options": [
+   "Metadata is cleared on suspend",
+   "The result cache is disabled by short auto-suspend",
+   "The warehouse cache is dropped each time the warehouse suspends",
+   "Queries now queue"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "The warehouse's local data cache is lost on suspend, so the first queries after resuming read from remote storage again.",
+  "ref": "https://docs.snowflake.com/en/user-guide/performance-query-warehouse-cache"
+ },
+ {
+  "id": "d4q36",
+  "objective": "4.3",
+  "question": "Which statements about the warehouse cache are true? (Select TWO)",
+  "options": [
+   "Larger warehouses have a larger cache",
+   "It is shared by all warehouses in the account",
+   "It survives suspension",
+   "It holds final query results for 24 hours",
+   "Decreasing the size of a running warehouse can drop part of the cache"
+  ],
+  "answer": [
+   0,
+   4
+  ],
+  "explanation": "Each running warehouse caches table data locally; size determines cache size. Suspending, or removing resources by resizing down, drops it.",
+  "ref": "https://docs.snowflake.com/en/user-guide/warehouses-considerations"
+ },
+ {
+  "id": "d4q37",
+  "objective": "4.3",
+  "question": "Which QUERY_HISTORY column shows how much data a query read from the warehouse cache?",
+  "options": [
+   "PERCENTAGE_SCANNED_FROM_CACHE",
+   "BYTES_SCANNED",
+   "BYTES_WRITTEN",
+   "PARTITIONS_SCANNED"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "PERCENTAGE_SCANNED_FROM_CACHE (0.0–1.0) is the share of data scanned from the local disk cache.",
+  "ref": "https://docs.snowflake.com/en/user-guide/performance-query-warehouse-cache"
+ },
+ {
+  "id": "d4q38",
+  "objective": "4.3",
+  "question": "How can you filter the output of a SHOW TABLES command with SQL?",
+  "options": [
+   "It isn't possible",
+   "SELECT ... FROM INFORMATION_SCHEMA.SHOW",
+   "SELECT ... FROM TABLE(RESULT_SCAN(LAST_QUERY_ID()))",
+   "SHOW TABLES WHERE rows = 0"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "RESULT_SCAN returns a previous query's result as a table, which you can query. The ->> pipe operator is an alternative.",
+  "ref": "https://docs.snowflake.com/en/user-guide/querying-persisted-results"
+ },
+ {
+  "id": "d4q39",
+  "objective": "4.4",
+  "question": "A VARIANT column src contains {\"Customer\": {\"Name\": \"Ana\"}}. Which expression returns Ana as a string without quotes?",
+  "options": [
+   "src:customer.name",
+   "src.Customer.Name",
+   "SRC:Customer:Name",
+   "src:Customer.Name::STRING"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Use a colon then dot notation; element names are case-sensitive, and casting to STRING removes the JSON double quotes.",
+  "ref": "https://docs.snowflake.com/en/user-guide/querying-semistructured"
+ },
+ {
+  "id": "d4q40",
+  "objective": "4.4",
+  "question": "Which statement about paths into VARIANT data is correct?",
+  "options": [
+   "The column name is case-insensitive; element names are case-sensitive",
+   "Both the column name and element names are case-insensitive",
+   "Element names are case-insensitive only with bracket notation",
+   "Both are case-sensitive"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Regardless of notation, the column name is case-insensitive but element names are case-sensitive.",
+  "ref": "https://docs.snowflake.com/en/user-guide/querying-semistructured"
+ },
+ {
+  "id": "d4q41",
+  "objective": "4.4",
+  "question": "Each row in ORDERS has a JSON array of line items. Which construct returns one row per line item?",
+  "options": [
+   "PIVOT",
+   "LATERAL FLATTEN",
+   "GROUP BY",
+   "ARRAY_AGG"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "FLATTEN explodes an array or object into rows; LATERAL joins each source row to its elements.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/functions/flatten"
+ },
+ {
+  "id": "d4q42",
+  "objective": "4.4",
+  "question": "Some orders have an empty items array, and those orders disappear from a LATERAL FLATTEN query. How do you keep them?",
+  "options": [
+   "PATH => ''",
+   "MODE => 'BOTH'",
+   "RECURSIVE => TRUE",
+   "OUTER => TRUE"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "OUTER => TRUE generates one row (with NULL KEY, INDEX and VALUE) for zero-row expansions, like a left outer join.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/functions/flatten"
+ },
+ {
+  "id": "d4q43",
+  "objective": "4.4",
+  "question": "Which FLATTEN output column holds the element itself?",
+  "options": [
+   "KEY",
+   "INDEX",
+   "VALUE",
+   "SEQ"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "VALUE is the flattened element. KEY is the object key, INDEX the array position, SEQ a sequence number per input record.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/functions/flatten"
+ },
+ {
+  "id": "d4q44",
+  "objective": "4.4",
+  "question": "Partners without Snowflake logins need to open PDF files from a stage in a reporting tool. Which URL type fits?",
+  "options": [
+   "Stage URL",
+   "File URL",
+   "Pre-signed URL",
+   "Scoped URL"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "A pre-signed URL is a plain HTTPS link with a temporary access token; no Snowflake authentication is needed.",
+  "ref": "https://docs.snowflake.com/en/user-guide/unstructured-intro"
+ },
+ {
+  "id": "d4q45",
+  "objective": "4.4",
+  "question": "Which URL type gives temporary file access through a view without granting privileges on the stage, and expires after 24 hours?",
+  "options": [
+   "File URL",
+   "Scoped URL",
+   "Pre-signed URL",
+   "External URL"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Scoped URLs (BUILD_SCOPED_FILE_URL) grant temporary access without stage privileges and expire with the result cache period (24 h). Access is logged.",
+  "ref": "https://docs.snowflake.com/en/user-guide/unstructured-intro"
+ },
+ {
+  "id": "d4q46",
+  "objective": "4.4",
+  "question": "Which Cortex AI function extracts text and layout from documents stored on a stage?",
+  "options": [
+   "PARSE_JSON",
+   "GET_PRESIGNED_URL",
+   "AI_PARSE_DOCUMENT",
+   "FLATTEN"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "AI_PARSE_DOCUMENT returns a document's content (OCR, or text and layout) as JSON.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/functions/ai_parse_document"
+ },
+ {
+  "id": "d4q47",
+  "objective": "4.4",
+  "question": "What is the key difference between an aggregate function and a window function?",
+  "options": [
+   "Window functions can't be partitioned",
+   "Window functions can't use SUM",
+   "An aggregate returns one row per group; a window function returns a value for every input row",
+   "Aggregates require ORDER BY"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Aggregates collapse groups to one row; window functions compute over a window defined by OVER and keep every row.",
+  "ref": "https://docs.snowflake.com/en/user-guide/functions-window-using"
+ },
+ {
+  "id": "d4q48",
+  "objective": "4.4",
+  "question": "Scores are 90, 85, 85, 80 (descending). Which function returns 1, 2, 2, 3?",
+  "options": [
+   "RANK",
+   "DENSE_RANK",
+   "ROW_NUMBER",
+   "NTILE(4)"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "DENSE_RANK gives ties the same rank with no gaps. RANK returns 1, 2, 2, 4; ROW_NUMBER returns 1, 2, 3, 4.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/functions-window"
+ },
+ {
+  "id": "d4q49",
+  "objective": "4.4",
+  "question": "You need each customer's most recent order without a self-join. Which is the most concise approach?",
+  "options": [
+   "HAVING MAX(order_ts)",
+   "GROUP BY ROLLUP(customer_id)",
+   "QUALIFY ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY order_ts DESC) = 1",
+   "WHERE ROW_NUMBER() = 1"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "QUALIFY filters on window function results. Window functions can't be used in WHERE, which is evaluated before them.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/constructs/qualify"
+ },
+ {
+  "id": "d4q50",
+  "objective": "4.4",
+  "question": "Which function gives the value from the previous row within a partition (for example, last month's revenue)?",
+  "options": [
+   "FIRST_VALUE",
+   "LAG",
+   "NTILE",
+   "LEAD"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "LAG reads a preceding row; LEAD reads a following row.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/functions-window"
+ },
+ {
+  "id": "d4q51",
+  "objective": "4.4",
+  "question": "An analyst needs a fast distinct count of visitors across billions of rows and can accept a small error. Which function?",
+  "options": [
+   "LISTAGG(visitor_id)",
+   "APPROX_COUNT_DISTINCT(visitor_id)",
+   "COUNT(DISTINCT visitor_id)",
+   "MEDIAN(visitor_id)"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "APPROX_COUNT_DISTINCT (an alias for HLL) uses HyperLogLog to estimate distinct counts with far less work.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/functions-aggregation"
+ },
+ {
+  "id": "d4q52",
+  "objective": "4.4",
+  "question": "A report needs totals per city and state, a total per state, and a grand total in one query. Which clause?",
+  "options": [
+   "PIVOT",
+   "GROUP BY ROLLUP(state, city)",
+   "GROUP BY state, city",
+   "QUALIFY"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "ROLLUP produces aggregates at each level of the hierarchy plus a grand total.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/constructs/group-by-rollup"
+ },
+ {
+  "id": "d4q53",
+  "objective": "4.4",
+  "question": "Which practices help Snowflake queries perform better? (Select TWO)",
+  "options": [
+   "Prefer LIKE '%value' patterns",
+   "Use UNION ALL when duplicate removal isn't needed",
+   "Wrap filter columns in functions such as UPPER(col) = 'X'",
+   "Use SELECT * to help the optimizer",
+   "Select only the columns you need"
+  ],
+  "answer": [
+   1,
+   4
+  ],
+  "explanation": "Columnar storage scans only referenced columns, and UNION ALL avoids a duplicate-removal step. Functions on filter columns and leading wildcards hurt pruning.",
+  "ref": "https://docs.snowflake.com/en/user-guide/tables-clustering-micropartitions"
+ }
+]
