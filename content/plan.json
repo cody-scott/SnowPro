@@ -25,6 +25,7 @@
   { "week": 5, "focus": "Domains 4 & 5 — performance, caching, collaboration", "tasks": [
     { "id": "w5-notes4", "text": "Read notes 4.1 – 4.4" },
     { "id": "w5-notes5", "text": "Read notes 5.1 – 5.3" },
+    { "id": "w5-cards", "text": "Flashcards: Domains 4 and 5 (first pass)" },
     { "id": "w5-quiz", "text": "Quizzes: Domains 4 and 5, score ≥ 80%" }
   ]},
   { "week": 6, "focus": "Mock exams and weak-area review", "tasks": [

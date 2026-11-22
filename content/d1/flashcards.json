@@ -36,7 +36,7 @@
   {"id":"d1f35","objective":"1.5","front":"Where does an Apache Iceberg table's data live?","back":"In your own cloud storage, via an external volume; catalog can be Snowflake or external."},
   {"id":"d1f36","objective":"1.5","front":"What controls a dynamic table's freshness?","back":"TARGET_LAG; Snowflake refreshes it automatically (incremental or full)."},
   {"id":"d1f37","objective":"1.5","front":"Key limitation of materialized views?","back":"Single table only (no joins), limited functions; Enterprise edition; background maintenance costs credits."},
-  {"id":"d1f38","objective":"1.5","front":"Why use a secure view?","back":"Hides the definition and internals from non-owners; required to share views. Some optimizations are disabled."},
+  {"id":"d1f38","objective":"1.5","front":"Why use a secure view?","back":"Hides the definition and internals from non-owners; the default requirement for sharing views (unless the share sets SECURE_OBJECTS_ONLY = FALSE). Some optimizations are disabled."},
   {"id":"d1f39","objective":"1.6","front":"Cortex Search vs Cortex Analyst?","back":"Search: hybrid vector+keyword search over unstructured text (RAG). Analyst: natural language → SQL over structured data using a semantic model."},
   {"id":"d1f40","objective":"1.6","front":"How does Snowpark execute DataFrame operations?","back":"Lazily; operations are translated to SQL and pushed down to run in Snowflake when an action (collect, show) is called."},
   {"id":"d1f41","objective":"1.6","front":"Snowflake ML SQL functions for time series?","back":"FORECAST and ANOMALY_DETECTION (ML Functions)."},

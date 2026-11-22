@@ -1,0 +1,728 @@
+[
+ {
+  "id": "d5q01",
+  "objective": "5.1",
+  "question": "An Enterprise Edition account needs 30 days of Time Travel on a critical permanent table. What should you do?",
+  "options": [
+   "Set DATA_RETENTION_TIME_IN_DAYS = 30 on the table",
+   "Upgrade to Business Critical",
+   "Ask Snowflake Support to extend Fail-safe",
+   "Make the table transient"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Enterprise Edition allows 0–90 days of Time Travel on permanent objects via DATA_RETENTION_TIME_IN_DAYS.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-time-travel"
+ },
+ {
+  "id": "d5q02",
+  "objective": "5.1",
+  "question": "What is the maximum Time Travel retention for a TRANSIENT table in Enterprise Edition?",
+  "options": [
+   "7 days",
+   "90 days",
+   "1 day",
+   "0 days"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Transient and temporary objects can have 0 or 1 day of Time Travel on every edition.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-time-travel"
+ },
+ {
+  "id": "d5q03",
+  "objective": "5.1",
+  "question": "A table was accidentally dropped 2 hours ago. It has a 1-day retention period. How do you restore it?",
+  "options": [
+   "UNDROP TABLE",
+   "CREATE TABLE ... CLONE from the result cache",
+   "It can't be restored",
+   "Open a Snowflake Support case for Fail-safe"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Within the Time Travel retention period, UNDROP restores the most recent dropped version of the table.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-time-travel"
+ },
+ {
+  "id": "d5q04",
+  "objective": "5.1",
+  "question": "UNDROP TABLE orders fails. What is the most likely reason?",
+  "options": [
+   "UNDROP only works on databases",
+   "A table named orders already exists",
+   "The warehouse is suspended",
+   "The table had Fail-safe enabled"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "UNDROP returns an error if an object with the same name exists. Rename or drop the existing table first.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/undrop-table"
+ },
+ {
+  "id": "d5q05",
+  "objective": "5.1",
+  "question": "Which statements about Fail-safe are true? (Select TWO)",
+  "options": [
+   "Users can query it with AT | BEFORE",
+   "It applies to temporary tables",
+   "Only Snowflake Support can recover data from it",
+   "It lasts 7 days after the Time Travel period ends",
+   "Its length can be set per table"
+  ],
+  "answer": [
+   2,
+   3
+  ],
+  "explanation": "Fail-safe is a non-configurable 7-day period for permanent tables, used only by Snowflake to recover data on a best-effort basis.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-failsafe"
+ },
+ {
+  "id": "d5q06",
+  "objective": "5.1",
+  "question": "A permanent table has DATA_RETENTION_TIME_IN_DAYS = 1. A row was deleted 5 days ago. How can it be recovered?",
+  "options": [
+   "UNDROP",
+   "From the warehouse cache",
+   "Only by Snowflake Support through Fail-safe",
+   "SELECT ... AT (OFFSET => -432000)"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Time Travel ended after 1 day; the data is now in the 7-day Fail-safe period, which only Snowflake Support can access.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-failsafe"
+ },
+ {
+  "id": "d5q07",
+  "objective": "5.1",
+  "question": "Which table types have NO Fail-safe period? (Select TWO)",
+  "options": [
+   "Materialized view",
+   "Transient",
+   "Permanent",
+   "Temporary",
+   "Dynamic (permanent)"
+  ],
+  "answer": [
+   1,
+   3
+  ],
+  "explanation": "Transient and temporary tables have no Fail-safe, which lowers their storage cost.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-cdp-storage-costs"
+ },
+ {
+  "id": "d5q08",
+  "objective": "5.1",
+  "question": "An ACCOUNTADMIN sets MIN_DATA_RETENTION_TIME_IN_DAYS = 7. A table has DATA_RETENTION_TIME_IN_DAYS = 1. What is its effective retention?",
+  "options": [
+   "0 days",
+   "8 days",
+   "1 day",
+   "7 days"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Effective retention is MAX(DATA_RETENTION_TIME_IN_DAYS, MIN_DATA_RETENTION_TIME_IN_DAYS).",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-time-travel"
+ },
+ {
+  "id": "d5q09",
+  "objective": "5.1",
+  "question": "Which query returns a table as it was just before a specific UPDATE statement ran?",
+  "options": [
+   "SELECT * FROM t AT (STATEMENT => '<query_id>') FAILSAFE",
+   "UNDROP t",
+   "SELECT * FROM t BEFORE (STATEMENT => '<query_id>')",
+   "SELECT * FROM t VERSION '<query_id>'"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "BEFORE (STATEMENT => query_id) returns data as it was immediately before that statement.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-time-travel"
+ },
+ {
+  "id": "d5q10",
+  "objective": "5.1",
+  "question": "A developer clones a 10 TB production database for testing. Which statements are true? (Select TWO)",
+  "options": [
+   "The clone immediately uses another 10 TB of storage",
+   "Changes in the clone don't affect production",
+   "The clone is read-only",
+   "Data is copied in the background",
+   "The clone is created almost instantly"
+  ],
+  "answer": [
+   1,
+   4
+  ],
+  "explanation": "Zero-copy cloning copies metadata only, so it's fast and uses no extra storage until data changes. The clone is writable and independent.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-clone"
+ },
+ {
+  "id": "d5q11",
+  "objective": "5.1",
+  "question": "You clone a database that contains scheduled tasks. What state are the tasks in within the clone?",
+  "options": [
+   "Dropped",
+   "Running once, then suspended",
+   "Running on the same schedule",
+   "Suspended"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Tasks in a cloned database or schema are suspended by default and must be resumed individually.",
+  "ref": "https://docs.snowflake.com/en/user-guide/object-clone"
+ },
+ {
+  "id": "d5q12",
+  "objective": "5.1",
+  "question": "You clone a single table with CREATE TABLE t2 CLONE t1. What happens to privileges granted on t1?",
+  "options": [
+   "They are not copied unless you add COPY GRANTS",
+   "They move to t2",
+   "They are copied automatically",
+   "Only OWNERSHIP is copied"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Most CLONE statements don't copy grants on the source object; CREATE TABLE ... CLONE supports COPY GRANTS to copy them (except OWNERSHIP).",
+  "ref": "https://docs.snowflake.com/en/user-guide/object-clone"
+ },
+ {
+  "id": "d5q13",
+  "objective": "5.1",
+  "question": "After cloning a table, a COPY INTO from the same stage loads files that were already loaded into the source. Why?",
+  "options": [
+   "FORCE is set by default on clones",
+   "Cloning disables load metadata",
+   "Snowpipe was cloned",
+   "A cloned table doesn't include the source table's load history"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "A cloned table has no load history, so COPY doesn't know those files were loaded into the source.",
+  "ref": "https://docs.snowflake.com/en/sql-reference/sql/create-clone"
+ },
+ {
+  "id": "d5q14",
+  "objective": "5.1",
+  "question": "Which replication features are available on Standard Edition? (Select TWO)",
+  "options": [
+   "User and role replication",
+   "Failover groups",
+   "Database replication",
+   "Share replication",
+   "Client Redirect"
+  ],
+  "answer": [
+   2,
+   3
+  ],
+  "explanation": "Database and share replication are available on all editions. Account object replication, failover groups and Client Redirect require Business Critical.",
+  "ref": "https://docs.snowflake.com/en/user-guide/account-replication-intro"
+ },
+ {
+  "id": "d5q15",
+  "objective": "5.1",
+  "question": "A company needs its applications to keep the same connection URL when failing over to another region. What does it need? (Select TWO)",
+  "options": [
+   "A reader account",
+   "A storage integration",
+   "A failover group",
+   "Client Redirect (connection object)",
+   "A Data Exchange"
+  ],
+  "answer": [
+   2,
+   3
+  ],
+  "explanation": "A failover group lets a secondary be promoted to primary; Client Redirect keeps the connection URL pointing at the current primary. Both need Business Critical.",
+  "ref": "https://docs.snowflake.com/en/user-guide/client-redirect"
+ },
+ {
+  "id": "d5q16",
+  "objective": "5.1",
+  "question": "Which command promotes a secondary failover group to primary during an outage?",
+  "options": [
+   "ALTER REPLICATION GROUP fg REFRESH",
+   "UNDROP FAILOVER GROUP fg",
+   "ALTER DATABASE db ENABLE FAILOVER",
+   "ALTER FAILOVER GROUP fg PRIMARY"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Run ALTER FAILOVER GROUP ... PRIMARY in the target account to make it the primary (read-write).",
+  "ref": "https://docs.snowflake.com/en/user-guide/account-replication-failover-failback"
+ },
+ {
+  "id": "d5q17",
+  "objective": "5.1",
+  "question": "Which account is billed for replication costs?",
+  "options": [
+   "Snowflake absorbs them",
+   "The target account",
+   "The organization account only",
+   "The source account"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Data transfer and compute for replication are billed to the target account that is refreshed.",
+  "ref": "https://docs.snowflake.com/en/user-guide/account-replication-cost"
+ },
+ {
+  "id": "d5q18",
+  "objective": "5.1",
+  "question": "What access do users have to objects in a secondary replication group in the target account?",
+  "options": [
+   "DDL only",
+   "No access until failover",
+   "Read-only",
+   "Read-write"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Replicated (secondary) objects are read-only until a failover group is promoted to primary.",
+  "ref": "https://docs.snowflake.com/en/user-guide/account-replication-intro"
+ },
+ {
+  "id": "d5q19",
+  "objective": "5.2",
+  "question": "In Secure Data Sharing, which statements are true? (Select TWO)",
+  "options": [
+   "Data is copied into the consumer account",
+   "The consumer pays for compute used to query shared data",
+   "The consumer can update shared tables",
+   "The provider pays for storage of the shared data",
+   "Shared data uses storage in the consumer account"
+  ],
+  "answer": [
+   1,
+   3
+  ],
+  "explanation": "No data is copied; consumers pay only for their compute, and providers keep paying for storage. Shared objects are read-only.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-sharing-intro"
+ },
+ {
+  "id": "d5q20",
+  "objective": "5.2",
+  "question": "Which role can create a share by default?",
+  "options": [
+   "SYSADMIN",
+   "SECURITYADMIN",
+   "PUBLIC",
+   "ACCOUNTADMIN"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Creating shares requires ACCOUNTADMIN or a role granted the global CREATE SHARE privilege.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-sharing-provider"
+ },
+ {
+  "id": "d5q21",
+  "objective": "5.2",
+  "question": "A provider adds new rows to a table in a share. When can consumers see them?",
+  "options": [
+   "After 24 hours",
+   "After the consumer re-creates the database",
+   "After the next replication refresh",
+   "Immediately"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Updates to shared objects are available to consumers immediately, because they query the provider's data directly.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-sharing-intro"
+ },
+ {
+  "id": "d5q22",
+  "objective": "5.2",
+  "question": "A consumer wants analysts to query a database created from a share. What should be granted?",
+  "options": [
+   "USAGE on the share",
+   "IMPORTED PRIVILEGES on the database (or the share's database roles)",
+   "OWNERSHIP of the database",
+   "SELECT on each shared table"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Access to an imported database is granted with IMPORTED PRIVILEGES, or by granting the database roles included in the share.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-share-consumers"
+ },
+ {
+  "id": "d5q23",
+  "objective": "5.2",
+  "question": "Which actions are NOT possible on a database created from a share? (Select TWO)",
+  "options": [
+   "Joining its tables with local tables",
+   "Cloning it",
+   "Using Time Travel on its tables",
+   "Querying its tables",
+   "Granting access to roles"
+  ],
+  "answer": [
+   1,
+   2
+  ],
+  "explanation": "Imported databases are read-only and can't be cloned, used with Time Travel, or replicated.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-share-consumers"
+ },
+ {
+  "id": "d5q24",
+  "objective": "5.2",
+  "question": "A provider in AWS us-east-1 wants to share data with an account in Azure West Europe. What should they use?",
+  "options": [
+   "A secure view",
+   "A direct share",
+   "A listing with Cross-Cloud Auto-Fulfillment",
+   "A reader account"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Direct shares work only within the same region. Listings with auto-fulfillment (or manual replication) reach other regions and clouds.",
+  "ref": "https://docs.snowflake.com/en/collaboration/provider-listings-auto-fulfillment"
+ },
+ {
+  "id": "d5q25",
+  "objective": "5.2",
+  "question": "A provider tries to add a regular (non-secure) view to a share and gets an error. How can they share it?",
+  "options": [
+   "Create or alter the share with SECURE_OBJECTS_ONLY = FALSE",
+   "Use a reader account",
+   "Grant REFERENCE_USAGE on the view",
+   "Regular views can never be shared"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "By default only secure objects can be shared. SECURE_OBJECTS_ONLY = FALSE allows non-secure views, though Snowflake recommends secure views.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-sharing-provider"
+ },
+ {
+  "id": "d5q26",
+  "objective": "5.2",
+  "question": "A secure view in database A references tables in database B. What extra grant is needed to share the view?",
+  "options": [
+   "IMPORTED PRIVILEGES on database B",
+   "OWNERSHIP of database B",
+   "USAGE on database B to the share",
+   "REFERENCE_USAGE on database B to the share"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Grant REFERENCE_USAGE on each other database the shared secure view references.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-sharing-mutiple-db"
+ },
+ {
+  "id": "d5q27",
+  "objective": "5.2",
+  "question": "A partner without a Snowflake account needs to query your data. What should you create?",
+  "options": [
+   "A Data Exchange",
+   "A replication group",
+   "A reader account",
+   "A public listing"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Reader accounts are created by the provider for consumers who aren't Snowflake customers.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-sharing-reader-create"
+ },
+ {
+  "id": "d5q28",
+  "objective": "5.2",
+  "question": "Who pays for the warehouse credits used in a reader account?",
+  "options": [
+   "They are free",
+   "The reader account user",
+   "The provider that created it",
+   "Snowflake"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "The provider owns the reader account and is charged for all its credits; resource monitors can limit them.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-sharing-reader-create"
+ },
+ {
+  "id": "d5q29",
+  "objective": "5.2",
+  "question": "Which can users of a reader account do?",
+  "options": [
+   "Run INSERT and UPDATE",
+   "Load data with COPY INTO <table>",
+   "Query data shared by the provider that created the account",
+   "Consume shares from any provider"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Reader accounts are query-only and can consume data only from the provider that created them.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-sharing-reader-create"
+ },
+ {
+  "id": "d5q30",
+  "objective": "5.2",
+  "question": "Which statements about resharing a direct share are true? (Select TWO)",
+  "options": [
+   "Resharing is limited to accounts in the consumer's own organization",
+   "The consumer can reshare to any external company",
+   "UDFs can be reshared",
+   "It is allowed only if the provider enabled it",
+   "Imported tables can be attached directly to a new share"
+  ],
+  "answer": [
+   0,
+   3
+  ],
+  "explanation": "Resharing requires the provider's permission and is limited to the consumer's organization, through a secure view in the consumer's own database. UDFs can't be reshared.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-share-consumers"
+ },
+ {
+  "id": "d5q31",
+  "objective": "5.2",
+  "question": "One share must show each consumer account only its own rows. What is a common approach?",
+  "options": [
+   "Use Time Travel",
+   "A secure view joined to a mapping table on CURRENT_ACCOUNT()",
+   "Create a separate database per consumer",
+   "Give each consumer a reader account"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "A secure view filters rows using a mapping table keyed on CURRENT_ACCOUNT(), so each consumer sees only its data.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-sharing-secure-views"
+ },
+ {
+  "id": "d5q32",
+  "objective": "5.2",
+  "question": "Two companies want to measure overlap between their customer lists without either seeing the other's raw data. Which feature fits?",
+  "options": [
+   "Data clean room",
+   "Direct share",
+   "Database replication",
+   "Reader account"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "Data clean rooms let collaborators run approved templates on combined data without exposing raw rows.",
+  "ref": "https://docs.snowflake.com/en/user-guide/cleanrooms/introduction"
+ },
+ {
+  "id": "d5q33",
+  "objective": "5.2",
+  "question": "How many databases can a consumer create from a single share?",
+  "options": [
+   "One",
+   "Two",
+   "One per role",
+   "Unlimited"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "A consumer can create only one database per share.",
+  "ref": "https://docs.snowflake.com/en/user-guide/data-sharing-intro"
+ },
+ {
+  "id": "d5q34",
+  "objective": "5.3",
+  "question": "Which capabilities do listings add over a direct share? (Select TWO)",
+  "options": [
+   "Allowing consumers to update provider data",
+   "Removing the need for a share",
+   "Charging consumers for access",
+   "Copying data into the consumer account",
+   "Metadata such as descriptions and sample queries"
+  ],
+  "answer": [
+   2,
+   4
+  ],
+  "explanation": "Listings add Marketplace discovery, paid access, usage metrics and metadata. Data isn't copied and stays read-only.",
+  "ref": "https://docs.snowflake.com/en/collaboration/collaboration-listings-about"
+ },
+ {
+  "id": "d5q35",
+  "objective": "5.3",
+  "question": "A provider wants to offer data only to three specific partner accounts, in different regions, with listing metadata. What should they create?",
+  "options": [
+   "A reader account for each",
+   "A public Marketplace listing",
+   "A private listing",
+   "A direct share"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Private listings are visible only to chosen accounts and work across regions.",
+  "ref": "https://docs.snowflake.com/en/collaboration/collaboration-listings-about"
+ },
+ {
+  "id": "d5q36",
+  "objective": "5.3",
+  "question": "A provider wants anyone on Snowflake to try a subset of its data for free and then request full access. Which listing type fits?",
+  "options": [
+   "Direct share",
+   "Limited trial listing on the Marketplace",
+   "Data Exchange",
+   "Free private listing"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Limited trial listings give instant limited access (for 1–90 days or a subset), and consumers can request the full product.",
+  "ref": "https://docs.snowflake.com/en/collaboration/collaboration-listings-about"
+ },
+ {
+  "id": "d5q37",
+  "objective": "5.3",
+  "question": "What does Cross-Cloud Auto-Fulfillment do?",
+  "options": [
+   "Copies consumer data back to the provider",
+   "Fails over accounts between clouds",
+   "Converts direct shares to reader accounts",
+   "Automatically replicates a listing's data product to consumer regions as needed"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Auto-fulfillment lets Snowflake replicate a listing's data product to other regions automatically.",
+  "ref": "https://docs.snowflake.com/en/collaboration/provider-listings-auto-fulfillment"
+ },
+ {
+  "id": "d5q38",
+  "objective": "5.3",
+  "question": "Which privileges does a consumer role need to get a listing (if not ACCOUNTADMIN)? (Select TWO)",
+  "options": [
+   "CREATE DATABASE",
+   "IMPORT SHARE",
+   "CREATE INTEGRATION",
+   "MANAGE GRANTS",
+   "CREATE SHARE"
+  ],
+  "answer": [
+   0,
+   1
+  ],
+  "explanation": "Accessing a listing needs ACCOUNTADMIN or a role with the CREATE DATABASE and IMPORT SHARE privileges.",
+  "ref": "https://docs.snowflake.com/en/collaboration/consumer-listings-access"
+ },
+ {
+  "id": "d5q39",
+  "objective": "5.3",
+  "question": "What is required to publish a listing on the Snowflake Marketplace?",
+  "options": [
+   "A reader account",
+   "Business Critical Edition",
+   "A trial account",
+   "A provider profile on a full account"
+  ],
+  "answer": [
+   3
+  ],
+  "explanation": "Marketplace (or paid) listings require a provider profile, and trial accounts aren't eligible.",
+  "ref": "https://docs.snowflake.com/en/collaboration/provider-becoming"
+ },
+ {
+  "id": "d5q40",
+  "objective": "5.3",
+  "question": "Which statements about the Snowflake Marketplace are true? (Select TWO)",
+  "options": [
+   "Marketplace data is loaded into the consumer's storage",
+   "It is only available on AWS",
+   "Consumers get live data without building pipelines",
+   "It offers data and Native Apps from third-party providers",
+   "Consumers can edit provider tables"
+  ],
+  "answer": [
+   2,
+   3
+  ],
+  "explanation": "Marketplace listings give live, ready-to-query data and apps from providers, without copies or pipelines. It's available on AWS, Azure and Google Cloud.",
+  "ref": "https://docs.snowflake.com/en/collaboration/collaboration-marketplace-about"
+ },
+ {
+  "id": "d5q41",
+  "objective": "5.3",
+  "question": "Which two files must every Native App application package contain?",
+  "options": [
+   "A manifest file and a setup script",
+   "A YAML template and a JinjaSQL query",
+   "A share and a reader account",
+   "A Dockerfile and a README"
+  ],
+  "answer": [
+   0
+  ],
+  "explanation": "An application package requires a manifest file (configuration, versions) and a setup script (SQL run on install or upgrade).",
+  "ref": "https://docs.snowflake.com/en/developer-guide/native-apps/native-apps-about"
+ },
+ {
+  "id": "d5q42",
+  "objective": "5.3",
+  "question": "Where is a Snowflake Native App installed and run?",
+  "options": [
+   "In a reader account",
+   "In the consumer's account",
+   "Outside Snowflake",
+   "In the provider's account"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Installing the app creates an application object in the consumer account, and the setup script creates its objects there.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/native-apps/native-apps-about"
+ },
+ {
+  "id": "d5q43",
+  "objective": "5.3",
+  "question": "How do providers distribute Snowflake Native Apps to consumers?",
+  "options": [
+   "Only through direct shares",
+   "Through database replication",
+   "Through listings (private or Marketplace)",
+   "By emailing the setup script"
+  ],
+  "answer": [
+   2
+  ],
+  "explanation": "Native Apps are published as the data product of a listing, free or paid, privately or on the Marketplace.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/native-apps/native-apps-about"
+ },
+ {
+  "id": "d5q44",
+  "objective": "5.3",
+  "question": "A Native App needs a web UI for consumers. Which component can it include?",
+  "options": [
+   "A Data Exchange",
+   "Streamlit",
+   "A reader account",
+   "Client Redirect"
+  ],
+  "answer": [
+   1
+  ],
+  "explanation": "Native Apps can include Streamlit apps, stored procedures and UDFs, and even container services via Snowpark Container Services.",
+  "ref": "https://docs.snowflake.com/en/developer-guide/native-apps/native-apps-about"
+ }
+]
