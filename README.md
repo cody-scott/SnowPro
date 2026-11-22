@@ -1,6 +1,6 @@
 # SnowPro Core (COF-C03) Study App
 
-Interactive study plan, notes, flashcards (spaced repetition) and quizzes for the SnowPro Core exam.
+Interactive study plan, notes, flashcards (spaced repetition), quizzes and timed mock exams for the SnowPro Core exam.
 
 **Live site:** https://cody-scott.github.io/SnowPro/
 

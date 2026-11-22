@@ -85,3 +85,5 @@ details summary { cursor: pointer; font-weight: 600; }
   .split { grid-template-columns: 1fr; } .side { position: static; max-height: 260px; }
   .domains th:nth-child(3), .domains td:nth-child(3), .domains th:nth-child(4), .domains td:nth-child(4) { display: none; }
 }
+.timer { font-variant-numeric: tabular-nums; font-size: 18px; } .timer.low { color: var(--bad); }
+.domains tr.good td { color: var(--ok); }

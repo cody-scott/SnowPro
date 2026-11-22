@@ -819,7 +819,7 @@
   "answer": [
    1
   ],
-  "explanation": "Secure views hide their definition from non-owners and are required for sharing views.",
+  "explanation": "Secure views hide their definition from non-owners. Shares accept only secure views by default (SECURE_OBJECTS_ONLY = FALSE allows regular views).",
   "ref": "https://docs.snowflake.com/en/user-guide/views-secure"
  },
  {

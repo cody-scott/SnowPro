@@ -6,7 +6,9 @@ import { shuffle } from './lib/util';
 export interface Answer { q: Question; correct: boolean }
 
 /** Runs a list of questions one at a time. In practice mode it shows feedback after each answer; in exam mode it doesn't. */
-export function QuizRunner({ questions, exam = false, onDone }: { questions: Question[]; exam?: boolean; onDone: (a: Answer[]) => void }) {
+export function QuizRunner({ questions, exam = false, onDone, onAnswer }: {
+  questions: Question[]; exam?: boolean; onDone: (a: Answer[]) => void; onAnswer?: (a: Answer) => void;
+}) {
   // Shuffle option order per question, keeping track of the original index.
   const items = useMemo(() => questions.map(q => ({ q, order: shuffle(q.options.map((_, i) => i)) })), [questions]);
   const [i, setI] = useState(0);
@@ -29,7 +31,9 @@ export function QuizRunner({ questions, exam = false, onDone }: { questions: Que
 
   const submit = () => {
     recordAnswer(q.id, isCorrect);
-    const next = [...answers, { q, correct: isCorrect }];
+    const ans = { q, correct: isCorrect };
+    onAnswer?.(ans);
+    const next = [...answers, ans];
     setAnswers(next);
     if (exam) advance(next); else setSubmitted(true);
   };
@@ -73,7 +77,9 @@ export function QuizRunner({ questions, exam = false, onDone }: { questions: Que
   );
 }
 
-export function Results({ answers, onRetry, onRestart }: { answers: Answer[]; onRetry?: () => void; onRestart: () => void }) {
+export function Results({ answers, onRetry, onRestart, restartLabel = 'New quiz' }: {
+  answers: Answer[]; onRetry?: () => void; onRestart: () => void; restartLabel?: string;
+}) {
   const right = answers.filter(a => a.correct).length;
   const byObj: Record<string, [number, number]> = {};
   answers.forEach(a => { const r = (byObj[a.q.objective] ??= [0, 0]); r[1]++; if (a.correct) r[0]++; });
@@ -101,7 +107,7 @@ export function Results({ answers, onRetry, onRestart }: { answers: Answer[]; on
       )}
       <div className="row">
         {onRetry && missed.length > 0 && <button className="primary" onClick={onRetry}>Retry missed</button>}
-        <button onClick={onRestart}>New quiz</button>
+        <button onClick={onRestart}>{restartLabel}</button>
       </div>
     </div>
   );
